@@ -11,7 +11,7 @@ CATHEGORIES = (
     (5, "Book Review"),
     (6, "Registered Report"),
     (7, "Review"),
-    (8, "Else"),
+
 
 )
 
