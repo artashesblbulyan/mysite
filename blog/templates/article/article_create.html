@@ -1,0 +1,22 @@
+{% extends 'article/base.html' %}
+
+
+{% block content %}
+
+
+
+
+		<h3>Create Article</h3>
+		<form method="POST" >
+			{% csrf_token %}
+			{{ form.as_p }}
+		<!-- here should be the form don't forget about csrf_token -->
+		<input class="btn btn-info" type="submit" name="Create Task">
+	</form>
+
+
+
+{% endblock %}
+
+
+
