@@ -57,6 +57,7 @@ class UserPostModel(models.Model):
     post_picture = models.ImageField(upload_to=user_post_directory_path)
     posts = models.TextField()
     title = models.CharField(max_length=200)
+    amount_of_likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -70,3 +71,4 @@ class Like(models.Model):
 
     def __str__(self):
         return self.like
+

@@ -92,6 +92,7 @@ def users_posts(request, username):
     post_user = UserPostsForm(request.POST)
     posts_mod = UserPostModel.objects.all()
     contextlike = Like.objects.all()
+    amount_of_likes = 0
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
 
@@ -116,6 +117,7 @@ def users_posts(request, username):
 
         elif request.POST['id']:
             like_create_view(request, username)
+            return redirect('users_posts', username=request.user.username)
         else:
             print("context")
     pages = users(request, username)
@@ -144,6 +146,13 @@ def like_create_view(request, username):
             try:
                 like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['id'])
                 like.delete()
+                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
+                update_amout_like.amount_of_likes -= 1
+                update_amout_like.save()
+
             except:
                 Like.objects.create(user_id=request.user.id, post_user_id=request.POST['id'])
+                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
+                update_amout_like.amount_of_likes += 1
+                update_amout_like.save()
 

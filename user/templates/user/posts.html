@@ -36,13 +36,15 @@
                                         </p>
                                 </div>
                                 <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-                                    {% for like in contextlike %}
-                                    {% if task.id == like.post_user_id %}
-                                    {{ like.like|add:like.like }}
-                                    {% endif %}
-                                    {% endfor %}
-                                    <button type="submit" name="id" value="{{task.id}}">Like</button>
-                                    <button>Comment</button>
+
+                                    <button id="like" name="id"  type="submit" value="{{task.id}}">
+                                          <i class="fa fa-thumbs-up"></i>
+                                          <span class="icon">Like {{ task.amount_of_likes }}</span>
+                                    </button>
+                                    <button>
+                                        <i class="fa fa-comment"></i>
+                                        <span class="icon">Comment</span>
+                                    </button>
                                     <button>Share</button>
                                 </form>
                             </div>
