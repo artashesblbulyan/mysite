@@ -1,14 +1,14 @@
 from django.shortcuts import render,redirect
-from user.forms import RegistrationForm
+from user.forms import RegistrationForm, CommentForm
 from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from user.forms import UserRegistrationForm, UserCommentForm
+from user.forms import UserRegistrationForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm
-from user.models import UserCommentModel, UserImageAlbumsModel, UserPostModel, UserImageModel,Like
+from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment
 from django.views.generic import View,ListView,UpdateView,DetailView,DeleteView,CreateView
 
 def registration_views(request):
@@ -90,17 +90,15 @@ def users(request, username):
 @login_required(login_url="loginuser")
 def users_posts(request, username):
     post_user = UserPostsForm(request.POST)
+    comment_form = CommentForm(request.POST)
     posts_mod = UserPostModel.objects.all()
     contextlike = Like.objects.all()
-    amount_of_likes = 0
+    comment_all = Comment.objects.all()
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
-
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) != None:
                 posts = request.POST['posts']
-
-
                 status = request.POST['status']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
@@ -111,24 +109,25 @@ def users_posts(request, username):
                 posts = request.POST['posts']
                 status = request.POST['status']
                 title = request.POST['title']
-                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status,
-                                              title=title)
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
                 return redirect('users_posts', username=request.user.username)
 
-        elif request.POST['id']:
+        elif request.POST.get('id', None) != None:
             like_create_view(request, username)
             return redirect('users_posts', username=request.user.username)
-        else:
-            print("context")
+        elif request.POST.get('comment', None) != None:
+            comment_create_view(request, username)
+            return redirect('users_posts', username=request.user.username)
     pages = users(request, username)
     user_image = pages.get('user_image')
-    # user_image = UserImageModel.objects.all()
     form_image = pages.get('form_image')
     context = {"post": post_user,
                "posts_mod": posts_mod,
                "user_image": user_image,
                "form_image": form_image,
-               "contextlike": contextlike
+               "contextlike": contextlike,
+               "comment_form": comment_form,
+               "comment_all": comment_all
                }
     return render(request, 'user/posts.html', context=context)
 
@@ -156,3 +155,17 @@ def like_create_view(request, username):
                 update_amout_like.amount_of_likes += 1
                 update_amout_like.save()
 
+
+def comment_create_view(request, username):
+    if request.method == "POST":
+        print('error1')
+        if request.POST['comment']:
+            try:
+                print(request.POST['comment'])
+                print(request.user.id)
+                print(request.POST)
+                print(request.POST['post_user_id'])
+                Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
+                                       comment=request.POST['comment'])
+            except:
+                print('error')

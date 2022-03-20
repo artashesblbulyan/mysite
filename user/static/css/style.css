@@ -236,7 +236,7 @@ a:focus {
     }
     
     .nav-bar .navbar {
-        padding: 15px;
+        padding: 2px;
     }
     
     .nav-bar .navbar-brand {
@@ -761,7 +761,7 @@ a:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(243 243 243);
+    background: rgb(255 255 255);
 
 }
 
@@ -1047,7 +1047,7 @@ a:focus {
     width: 100%;
     padding: 45px 0;
 }
-.row {
+.row-1 {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
@@ -1058,6 +1058,17 @@ a:focus {
     justify-content: space-between;
     align-items: center;
 }
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: nowrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .faqs .row {
     position: relative;
 }
@@ -2402,11 +2413,21 @@ a:focus {
 background: #ffffff;
 box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
 }
+
+.nav-bar-2 .container-fluid{
+    width: 21%;
+
+}
+
+
+
+
 .nav-bar-2.nav-sticky {
     position: fixed;
-    top: 50px;
-    width: 100%;
-    max-width: 1366px;
+    top: 0px;
+    width: 0;
+    left: 40%;
+    max-width: 1367px;
     box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
     z-index: 999;
 }
@@ -2440,6 +2461,45 @@ text-align:center;}
 display:block;
 font-size:42px;
 padding-bottom:0px;}
+
+.service-overlay-comment {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    background: rgb(255 255 255);
+    align-content: stretch;
+    align-items: baseline;
+
+}
+.coment {
+     box-shadow: 4px 4px 5px 4px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
+     border-radius: 14px;
+     margin: 5px;
+     padding: 5px;
+     background: rgb(255 255 255);
+}
+.coment_name{
+    box-shadow: 4px 4px 17px 2px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
+    border-radius: 25px;
+    margin: 5px;
+    padding: 5px;
+    width: 31px;
+}
+.service .service-overlay-comment-form {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(255 255 255);
+}
 
 
 

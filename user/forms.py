@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from user.models import UserImageModel, UserCommentModel
+from user.models import UserImageModel, Comment
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -17,12 +17,12 @@ class UserRegistrationForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
 
 
-class UserCommentForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}), required=False)
-
-    class Meta:
-        model = UserCommentModel
-        fields = ('comment',)
+# class UserCommentForm(forms.ModelForm):
+#     comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}), required=False)
+#
+#     class Meta:
+#         model = UserCommentModel
+#         fields = ('comment',)
 
 
 class RegistrationForm(UserCreationForm):
@@ -60,4 +60,13 @@ class UserPostsForm(forms.Form):
     posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts'}))
     status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
     post_picture = forms.ImageField(required=False)
+
+
+class CommentForm(forms.ModelForm):
+    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "rows": "1",
+                                                           "placeholder": "Comment"}), required=False)
+
+    class Meta:
+        model = Comment
+        fields = ('comment',)
 

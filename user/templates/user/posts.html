@@ -7,19 +7,17 @@
                     <div class="section-header text-center">
                         <h2>POSTS</h2>
                         <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-                            {{ post }}
+                            {{ post.title }}<br>
+                            {{ post.posts }}<br>
+                            {{ post.status }}
+                            {{ post.post_picture }}
                             <button type="submit">submit</button>
                         </form>
                     </div>
                     <div class="row row-1">
                         {% for task in posts_mod %}
                         <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="col-md-4 ">
-                            <div class="post-user-image" style="background-image: url({{user_image.profile_picture.url}})"></div>
-                            </div>
-                            <div class="col-md-4 ">
-                            <p>{{task.user.username }}</p>
-                            </div>
+
                             <div class="service-item" style="background-image:">
                                 {% if task.post_picture %}
                                 <div class="service-img">
@@ -27,8 +25,19 @@
                                 </div>
                                 {% endif %}
                                 <div class="service-text">
-                                    <h3>{{task.title}}</h3>
+                                    <div class="col-md-2 ">
+                            <div class="post-user-image" style="background-image: url({{user_image.profile_picture.url}})"></div>
+                            </div>
+                            <div class="col-md-4 ">
+                            {{task.user.username }}<br>
+                            {{task.date }}
+                            </div>
+                                    <div class="col-md-5 ">
+                                    </div>
+                                    <div class="col-md-2 ">
                                     <a class="btn" href="#" >+</a>
+
+                                    </div>
                                 </div>
                                 <div class="service-overlay">
                                         <p>
@@ -36,7 +45,6 @@
                                         </p>
                                 </div>
                                 <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-
                                     <button id="like" name="id"  type="submit" value="{{task.id}}">
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">Like {{ task.amount_of_likes }}</span>
@@ -46,6 +54,24 @@
                                         <span class="icon">Comment</span>
                                     </button>
                                     <button>Share</button>
+                                </form>
+                                <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
+                                    {% for comment_a in comment_all %}
+                                    {% if comment_a.post_user_id == task.id  %}
+                                  <div class="service-overlay-comment">
+                                      <div class="">
+                                         <p class="coment_name">{{comment_a.user.username|slice:":1" }}</p>
+                                      </div>
+                                      <div class="coment">
+                                     {{comment_a.comment}}
+                                      </div>
+                                </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                 <div class="service-overlay-comment-form">
+                                     {{comment_form.comment}}
+                                </div>
+                                    <button name="post_user_id" type="submit" value="{{task.id}}">Share</button>
                                 </form>
                             </div>
                         </div>

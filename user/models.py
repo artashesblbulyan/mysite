@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class UserCommentModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    comment = models.TextField()
-
-    def __str__(self):
-        return self.comment
+# class UserCommentModel(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     date = models.DateTimeField(auto_now_add=True)
+#     comment = models.TextField()
+#
+#     def __str__(self):
+#         return self.comment
 
 
 def user_image_directory_path(instance, filename):
@@ -72,3 +72,12 @@ class Like(models.Model):
     def __str__(self):
         return self.like
 
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment
