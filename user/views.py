@@ -20,16 +20,6 @@ def registration_views(request):
     return render(request, "registration.html", context)
 
 
-
-# Create your views here.
-
-
-def home(request):
-    user_form = userregistration(request)
-    form_class = loginuser(request)
-    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
-
-
 def userregistration(request):
     # user_form = ()
     # if request.method == "POST":
@@ -68,13 +58,13 @@ def users(request, username):
         form_image = UserUpdateImageForm(request.POST, request.FILES, instance=user_image)
         if form_image.is_valid():
             profile_picture = form_image.save(commit=False)
-            if request.FILES.get('profile_picture', None) != None:
+            if request.FILES.get('profile_picture', None != None):
                 profile_picture.profile_picture = request.FILES['profile_picture']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=0,
                                                     profile_picture=request.FILES['profile_picture'])
                 return redirect('users', username=request.user.username)
-            if request.FILES.get('cover_photo', None) != None:
+            if request.FILES.get('cover_photo', None != None):
                 profile_picture.cover_photo = request.FILES['cover_photo']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=1,
@@ -141,15 +131,45 @@ def like_create_view(request, username):
             try:
                 like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['id'])
                 like.delete()
-                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
-                update_amout_like.amount_of_likes -= 1
-                update_amout_like.save()
+                update_amount_like = UserPostModel.objects.get(id=request.POST['id'])
+                update_amount_like.amount_of_likes -= 1
+                update_amount_like.save()
 
             except:
                 Like.objects.create(user_id=request.user.id, post_user_id=request.POST['id'])
-                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
-                update_amout_like.amount_of_likes += 1
-                update_amout_like.save()
+                update_amount_like = UserPostModel.objects.get(id=request.POST['id'])
+                update_amount_like.amount_of_likes += 1
+                update_amount_like.save()
+
+
+def dislike_create_view(request, username):
+    update_amount_like = UserPostModel.objects.get(id=request.POST['id'])
+    update_amount_dislike = UserPostModel.objects.get(id=request.POST['id'])
+    if request.method == "POST":
+        if request.POST['id']:
+            try:
+                dislike = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['id'])
+                dislike.delete()
+                update_amount_dislike = UserPostModel.objects.get(id=request.POST['id'])
+                update_amount_dislike.amount_of_dislikes -= 1
+                update_amount_dislike.save()
+
+            except:
+                Like.objects.create(user_id=request.user.id, post_user_id=request.POST['id'])
+                update_amount_dislike.amount_of_dislikes += 1
+                try:
+                    like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['id'])
+                    like.delete()
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['id'])
+                    update_amount_like.amount_of_likes -= 1
+                    update_amount_like.save()
+                except:
+                    update_amount_dislike.save()
+
+
+
+
+
 
 
 def comment_create_view(request, username):
@@ -161,3 +181,9 @@ def comment_create_view(request, username):
                                        comment=request.POST['comment'])
             except:
                 print('error')
+
+
+def home(request):
+    user_form = userregistration(request)
+    form_class = loginuser(request)
+    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})

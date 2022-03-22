@@ -49,6 +49,11 @@
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">Like {{ task.amount_of_likes }}</span>
                                     </button>
+                                    <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
+                                    <button id="Dislike" name="id"  type="submit" value="{{task.id}}">
+                                          <i class="fa fa-thumbs-up"></i>
+                                          <span class="icon">DisLike {{ task.amount_of_dislikes }}</span>
+                                    </button>
                                     <button>
                                         <i class="fa fa-comment"></i>
                                         <span class="icon">Comment</span>
