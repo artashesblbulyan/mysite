@@ -23,7 +23,7 @@ class UserImageModel(models.Model):
     photo_albums = models.ImageField(upload_to=user_image_directory_path)
 
     def __str__(self):
-        return self.profile_picture
+        return self.date
 
 
 class UserImageAlbumsModel(models.Model):
@@ -38,7 +38,7 @@ class UserImageAlbumsModel(models.Model):
     profile_picture = models.ImageField(default='/a1.jpg', upload_to=user_image_directory_path)
 
     def __str__(self):
-        return self.profile_picture
+        return self.date
 
 
 def user_post_directory_path(instance, filename):
