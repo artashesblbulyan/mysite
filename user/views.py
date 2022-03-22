@@ -1,15 +1,11 @@
-from django.shortcuts import render,redirect
 from user.forms import RegistrationForm, CommentForm
-from pprint import pprint
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from user.forms import UserRegistrationForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm
 from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment
-from django.views.generic import View,ListView,UpdateView,DetailView,DeleteView,CreateView
+
 
 def registration_views(request):
     user_form = ()
@@ -97,7 +93,7 @@ def users_posts(request, username):
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         if post_user.is_valid():
-            if request.FILES.get('post_picture', None) != None:
+            if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
                 status = request.POST['status']
                 post_picture = request.FILES['post_picture']
@@ -112,10 +108,10 @@ def users_posts(request, username):
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
                 return redirect('users_posts', username=request.user.username)
 
-        elif request.POST.get('id', None) != None:
+        elif request.POST.get('id', None) is not None:
             like_create_view(request, username)
-            return redirect('users_posts', username=request.user.username)
-        elif request.POST.get('comment', None) != None:
+
+        elif request.POST.get('comment', None) is not None:
             comment_create_view(request, username)
             return redirect('users_posts', username=request.user.username)
     pages = users(request, username)
@@ -161,10 +157,6 @@ def comment_create_view(request, username):
         print('error1')
         if request.POST['comment']:
             try:
-                print(request.POST['comment'])
-                print(request.user.id)
-                print(request.POST)
-                print(request.POST['post_user_id'])
                 Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
                                        comment=request.POST['comment'])
             except:

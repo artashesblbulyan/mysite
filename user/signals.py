@@ -4,15 +4,13 @@ from django.db.models.signals import post_save
 from django.utils import timezone
 
 
-
-
-
 def create_profile(instance, created, sender,  **kwargs):
     if created:
         Comment.objects.create(user=instance, date=timezone.now())
 
 
 post_save.connect(receiver=create_profile, sender=User)
+
 
 def create_profile_image(instance, created, sender,  **kwargs):
     if created:
