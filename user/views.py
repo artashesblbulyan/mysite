@@ -134,7 +134,7 @@ def users_pos(request, username):
 
     return render(request, 'user/users.html', context=pages)
 
-
+@login_required(login_url="loginuser")
 def like_create_view(request, username):
     if request.method == "POST":
         if request.POST['id']:
@@ -151,10 +151,9 @@ def like_create_view(request, username):
                 update_amout_like.amount_of_likes += 1
                 update_amout_like.save()
 
-
+@login_required(login_url="loginuser")
 def comment_create_view(request, username):
     if request.method == "POST":
-        print('error1')
         if request.POST['comment']:
             try:
                 Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
