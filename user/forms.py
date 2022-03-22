@@ -74,3 +74,11 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('comment',)
 
+
+# class likeModelForm(forms.ModelForm):
+#     like = forms.TextInput(widget=forms.TextInput(attrs={"class": "form-control", "rows": "1",
+#                                                            "placeholder": "Comment"}), required=False)
+#
+#     class Meta:
+#         model = Comment
+#         fields = ('comment',)

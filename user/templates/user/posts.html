@@ -44,13 +44,13 @@
                                             {{task.posts|truncatewords_html:20}}
                                         </p>
                                 </div>
-                                <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-                                    <button id="like" name="id"  type="submit" value="{{task.id}}">
+                                <form method="POST"  enctype="multipart/form-data" >{% csrf_token %}
+                                    <button id="like" name="like"  type="submit" value={{task.id}}>
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">Like {{ task.amount_of_likes }}</span>
                                     </button>
-                                    <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-                                    <button id="Dislike" name="id"  type="submit" value="{{task.id}}">
+
+                                    <button id="Dislike1" name="dislike"  type="submit" value="{{task.id}}">
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">DisLike {{ task.amount_of_dislikes }}</span>
                                     </button>
