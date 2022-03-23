@@ -58,6 +58,7 @@ class UserPostModel(models.Model):
     posts = models.TextField()
     title = models.CharField(max_length=200)
     amount_of_likes = models.IntegerField(default=0)
+    amount_of_dislikes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -68,9 +69,19 @@ class Like(models.Model):
     post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     like = models.IntegerField(default=1)
+    dislike = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.like
+        return self.like, self.dislike
+
+# class DisLike(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     dislike = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return self.Dislike
 
 
 class Comment(models.Model):

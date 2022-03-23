@@ -20,16 +20,6 @@ def registration_views(request):
     return render(request, "registration.html", context)
 
 
-
-# Create your views here.
-
-
-def home(request):
-    user_form = userregistration(request)
-    form_class = loginuser(request)
-    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
-
-
 def userregistration(request):
     # user_form = ()
     # if request.method == "POST":
@@ -68,13 +58,13 @@ def users(request, username):
         form_image = UserUpdateImageForm(request.POST, request.FILES, instance=user_image)
         if form_image.is_valid():
             profile_picture = form_image.save(commit=False)
-            if request.FILES.get('profile_picture', None) != None:
+            if request.FILES.get('profile_picture', None != None):
                 profile_picture.profile_picture = request.FILES['profile_picture']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=0,
                                                     profile_picture=request.FILES['profile_picture'])
                 return redirect('users', username=request.user.username)
-            if request.FILES.get('cover_photo', None) != None:
+            if request.FILES.get('cover_photo', None != None):
                 profile_picture.cover_photo = request.FILES['cover_photo']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=1,
@@ -108,8 +98,10 @@ def users_posts(request, username):
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
                 return redirect('users_posts', username=request.user.username)
 
-        elif request.POST.get('id', None) is not None:
+        elif request.POST.get('like', None) is not None:
             like_create_view(request, username)
+        elif request.POST.get('dislike', None) is not None:
+            dislike_create_view(request, username)
 
         elif request.POST.get('comment', None) is not None:
             comment_create_view(request, username)
@@ -134,29 +126,75 @@ def users_pos(request, username):
 
     return render(request, 'user/users.html', context=pages)
 
-@login_required(login_url="loginuser")
+
 def like_create_view(request, username):
+
     if request.method == "POST":
-        if request.POST['id']:
+        if request.POST['like']:
             try:
-                like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['id'])
+                like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['like'],like=1)
                 like.delete()
-                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
-                update_amout_like.amount_of_likes -= 1
-                update_amout_like.save()
-
+                update_amount_like = UserPostModel.objects.get(id=request.POST['like'])
+                update_amount_like.amount_of_likes -= 1
+                update_amount_like.save()
             except:
-                Like.objects.create(user_id=request.user.id, post_user_id=request.POST['id'])
-                update_amout_like = UserPostModel.objects.get(id=request.POST['id'])
-                update_amout_like.amount_of_likes += 1
-                update_amout_like.save()
+                try:
+                    dislike = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['like'], dislike=1)
+                    dislike.delete()
+                    Like.objects.create(user_id=request.user.id, post_user_id=request.POST['like'],like=1,dislike=0)
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['like'])
+                    update_amount_like.amount_of_likes += 1
+                    update_amount_like.save()
+                    update_amount_dislike = UserPostModel.objects.get(id=request.POST['like'])
+                    update_amount_dislike.amount_of_dislikes -= 1
+                    update_amount_dislike.save()
+                except:
+                    Like.objects.create(user_id=request.user.id, post_user_id=request.POST['like'], like=1,dislike=0 )
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['like'])
+                    update_amount_like.amount_of_likes += 1
+                    update_amount_like.save()
 
-@login_required(login_url="loginuser")
+
+def dislike_create_view(request, username):
+    if request.method == "POST":
+        if request.POST['dislike']:
+            try:
+                dislike = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['dislike'], dislike=1)
+                dislike.delete()
+                update_amount_dislike = UserPostModel.objects.get(id=request.POST['dislike'])
+                update_amount_dislike.amount_of_dislikes -= 1
+                update_amount_dislike.save()
+            except:
+                try:
+                    like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['dislike'], like=1)
+                    like.delete()
+                    Like.objects.create(user_id=request.user.id, post_user_id=request.POST['dislike'], dislike=1, like=0)
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['dislike'])
+                    update_amount_like.amount_of_dislikes += 1
+                    update_amount_like.save()
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['dislike'])
+                    update_amount_like.amount_of_likes -= 1
+                    update_amount_like.save()
+                except:
+                    Like.objects.create(user_id=request.user.id, post_user_id=request.POST['dislike'], dislike=1, like=0)
+                    update_amount_like = UserPostModel.objects.get(id=request.POST['dislike'])
+                    update_amount_like.amount_of_dislikes += 1
+                    update_amount_like.save()
+
+
+
 def comment_create_view(request, username):
     if request.method == "POST":
+        print('error1')
         if request.POST['comment']:
             try:
                 Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
                                        comment=request.POST['comment'])
             except:
-                print('errores')
+                print('error')
+
+
+def home(request):
+    user_form = userregistration(request)
+    form_class = loginuser(request)
+    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
