@@ -123,9 +123,9 @@ def users_posts(request, username):
 def my_posts(request, username):
     post_user = UserPostsForm(request.POST)
     comment_form = CommentForm(request.POST)
-    posts_mod = UserPostModel.objects.all()
-    contextlike = Like.objects.all()
-    comment_all = Comment.objects.all()
+    posts_mod = UserPostModel.objects.filter(user=request.user)
+    contextlike = Like.objects.filter(user=request.user)
+    comment_all = Comment.objects.filter(user=request.user)
     if request.method == "POST":
         post_user = UserPostsForm.objects.filter(user=request.user)
         if post_user.is_valid():
