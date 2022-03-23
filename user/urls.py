@@ -12,7 +12,9 @@ urlpatterns = [
     path('<str:username>/', views.users_pos, name='users'),
     path('<str:username>/posts', views.users_posts, name='users_posts'),
     path('<str:username>/users_posts', views.my_posts, name='my_posts'),
+    path('<str:username>/edit_profile/', views.edit_profile, name='edit_profile'),
+    path('<str:username>/photos/', views.photos, name='photos'),
 
 
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

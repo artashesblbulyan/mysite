@@ -14,6 +14,7 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
         <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -47,7 +48,7 @@
             <div class="nav-bar">
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-                        <a href="#" class="navbar-brand">MENU</a>
+<!--                        <a href="#" class="navbar-brand">MENU</a>-->
                         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -61,7 +62,7 @@
                                 <button class="btn" type="submit" onclick="openFormLogin(),closeForm()">Login</button>
                                 <button class="btn" type="submit" onclick="openForm(),closeFormLogin()">Registration</button>
                                 {% else %}
-                                <a href="{% url 'my_posts' user.username%}"><button class="btn" >{{user.username}}</button></a>
+                                <a href="{% url 'my_posts' user.username%}"><button class="btn" >{{ user.first_name}} {{ user.last_name }}</button></a>
                                 <button class="btn" type="submit" ><a href="{% url 'user_logout' %}">Logout</a></button>
                                 {% endif%}
                             </div>
@@ -121,17 +122,15 @@
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                            <form  method="POST" enctype="multipart/form-data" style="position: absolute;z-index: 2;">{% csrf_token %}
+                            <form  method="POST" id="id_cover_photo_form" enctype="multipart/form-data"  style="position: absolute;z-index: 2;">{% csrf_token %}
                                 <div class="ksagamin-gindugun">
                                   <div class="kedsaainu-menestab">
                                       <label class="daainumplemen">
-                                          <i class="material-icons">attach_file</i>
-            <!--                              <span class="nesakopab">Добавить файл</span>-->
-                                          {{form_image.cover_photo}}
+                                          <i class="fa fa-camera">
+                                          {{form_image.cover_photo}}</i>
                                       </label>
                                   </div>
                                 </div>
-                                <button type="submit"></button>
                           </form>
                         {% if user_image.cover_photo  %}
                         <img src="{{user_image.cover_photo.url}}" >
@@ -148,25 +147,25 @@
                     <div class="row align-items-center">
                         <div class="col-lg-12 col-md-12">
                             <div class="feature-item">
-                                <div class="userimage" style="background-image: url({{user_image.profile_picture.url}});" >
-                                    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="userimage"  style="background-image: url({{user_image.profile_picture.url}});" >
+                                    <form method="POST"  id="target" enctype="multipart/form-data">{% csrf_token %}
                                         <div class="ksagamin-gindugun">
                                           <div class="kedsaainu-menestab">
                                               <label class="daainumplemen">
-                                                  <i class="material-icons">attach_file</i>
-                    <!--                              <span class="nesakopab">Добавить файл</span>-->
-                                                  {{form_image.profile_picture}}
+
+                                                <i class="fa fa-camera">
+                                                   {{form_image.profile_picture}}</i>
                                               </label>
                                           </div>
                                         </div>
-                                        <button type="submit"></button>
                                     </form>
                                 </div>
+                                <i class="fa-solid fa-image"></i>
                                 <div class="feature-text" style="width: 10%;">
                                     <br>
                                 </div>
                                 <div class="feature-text">
-                                    <h3>{{ user.username }}</h3>
+                                    <h3>{{ user.first_name}} {{ user.last_name }}</h3>
 
                                 </div>
 
@@ -188,7 +187,8 @@
                             <div class="navbar-nav mr-auto">
                                 <a href="{% url 'users_posts' user.username %}" class="nav-item nav-link active">Posts</a>
                                 <a href="#" class="nav-item nav-link">Frends</a>
-                                <a href="#" class="nav-item nav-link">Photos</a>
+                                <a href="{% url 'photos'  user.username %}" class="nav-item nav-link">Photos</a>
+                                <a href="{% url 'edit_profile'  user.username %}" class="nav-item nav-link">Edit_profile</a>
                             </div>
 
                         </div>
@@ -242,6 +242,12 @@
         <!-- Template Javascript -->
         <script src="{% static 'js/main.js' %}"></script>
          <script>
+         $('#id_profile_picture').change(function() {
+  $('#target').submit();
+});
+         $('#id_cover_photo').change(function() {
+  $('#id_cover_photo_form').submit();
+});
 function readURL(input) {
   if (input.files && input.files[0]) {
 

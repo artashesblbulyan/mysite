@@ -1,0 +1,31 @@
+{% extends 'user/userbase.html' %}
+{% load static %}
+    {% block post %}
+            <!-- Service Start -->
+            <div class="service">
+                <div class="container">
+                    <div class="section-header text-center">
+                   <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                        {{user_form.username}}<br>
+                        {{user_form.last_name}}<br>
+                        {{user_form.first_name}}<br>
+                        {{user_form.email}}<br>
+
+                       <label for="id_profile_picture">
+                        <img class="profile_picture_update" src="{{user_image.profile_picture.url}}" >
+                      </label>
+                            {{form_image.profile_picture}}<br>
+                       <label for="id_cover_photo">
+                        <img class="cover_photo_update" src="{{user_image.cover_photo.url}}" >
+                      </label>
+                            {{form_image.cover_photo}}<br>
+
+
+                       <button type="submit">Save</button>
+                    </form>
+                        </div>
+                </div>
+            </div>
+            <!-- Service End -->
+{% endblock %}
+

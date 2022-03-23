@@ -19,7 +19,7 @@ class UserImageModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(default='/a1.jpg', upload_to=user_image_directory_path)
-    cover_photo = models.ImageField(upload_to=user_image_directory_path)
+    cover_photo = models.ImageField(default='/cover_photo.jpg', upload_to=user_image_directory_path)
     photo_albums = models.ImageField(upload_to=user_image_directory_path)
 
     def __str__(self):

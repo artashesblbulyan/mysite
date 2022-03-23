@@ -778,7 +778,7 @@ a:focus {
     display: flex;
     align-items: center;
     height: 60px;
-    background: #030f27;
+    background: #ffffff;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -2378,17 +2378,17 @@ a:focus {
 
 
 .userimage {
-        width: 130px;
+    width: 150px;
     position: absolute;
     top: -62px;
-    border-radius: 31%;
-    border-color: blue;
-    border: 10px;
-    height: 155%;
+    border-radius: 50%;
+    height: 150px;
     z-index: 1;
-    background: red;
-    background-size: 139px;
-    background-repeat: no-repeat;
+    background-size: 100%;
+    background-repeat: space;
+    background-origin: border-box;
+    background-position: top;
+    border: 4px solid rgb(255 255 255);
 }
 
 .example-1 .form-group{padding:1em;margin:1em}
@@ -2453,14 +2453,17 @@ display:block;
 transition:border 300ms ease;
 cursor:pointer;
 position: absolute;
-top: 98px;
-left: 97px;
+top: 110px;
+left: 110px;
 text-align:center;}
 
 .ksagamin-gindugun .daainumplemen i{
 display:block;
-font-size:42px;
-padding-bottom:0px;}
+font-size:25px;
+padding-bottom:0px;
+color: black;
+z-index: 3;
+}
 
 .service-overlay-comment {
     width: 100%;
@@ -2501,7 +2504,36 @@ padding-bottom:0px;}
     background: rgb(255 255 255);
 }
 
+#id_cover_photo,#id_profile_picture {
+  display: none;
+}
+
+.cover_photo_update,.profile_picture_update{
+    width: 20%;
+}
+
+#id_cover_photo_form {
+    position: absolute;
+    z-index: 3;
+    left: 1150px;
+    top: 25px;
+    }
+
+.like_button_div {
+  box-shadow: 4px 4px 17px 2px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
+
+}
 
 
-
-
+element.style {
+}
+.portfolio-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 1px;
+    margin-left: 1px;
+    justify-content: space-between;
+    align-items: center;
+}
