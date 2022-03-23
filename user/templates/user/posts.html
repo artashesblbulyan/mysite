@@ -25,32 +25,33 @@
                                 </div>
                                 {% endif %}
                                 <div class="service-text">
-                                    <div class="col-md-1 ">
+                                    <div class="col-md-2 ">
                             <div class="post-user-image" style="background-image: url({{user_image.profile_picture.url}})"></div>
                             </div>
                             <div class="col-md-4 ">
-                                <div class="col-lg-1">{{task.user.first_name}} {{task.user.last_name }}</div>
-                                <div class="col-lg-1">{{task.date }}</div>
+                            {{task.user.username }}<br>
+                            {{task.date }}
                             </div>
                                     <div class="col-md-5 ">
                                     </div>
-                                    <div class="col-md-1 ">
-                                    <a class="btn" href="#" ><p>...</p></a>
+                                    <div class="col-md-2 ">
+                                    <a class="btn" href="#" >+</a>
+
                                     </div>
                                 </div>
                                 <div class="service-overlay">
                                         <p>
-                                            {{task.posts|truncatewords_html:50}}
+                                            {{task.posts|truncatewords_html:20}}
                                         </p>
                                 </div>
-                                <div class="like_button_div">
                                 <form method="POST"  enctype="multipart/form-data" >{% csrf_token %}
                                     <button id="like" name="like"  type="submit" value={{task.id}}>
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">Like {{ task.amount_of_likes }}</span>
                                     </button>
+
                                     <button id="Dislike1" name="dislike"  type="submit" value="{{task.id}}">
-                                          <i class="fa fa-thumbs-down"></i>
+                                          <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">DisLike {{ task.amount_of_dislikes }}</span>
                                     </button>
                                     <button>
@@ -59,7 +60,6 @@
                                     </button>
                                     <button>Share</button>
                                 </form>
-                                </div>
                                 <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
                                     {% for comment_a in comment_all %}
                                     {% if comment_a.post_user_id == task.id  %}
