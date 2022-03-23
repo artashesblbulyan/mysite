@@ -11,7 +11,8 @@ urlpatterns = [
     path('user_logout/', views.user_logout, name='user_logout'),
     path('<str:username>/', views.users_pos, name='users'),
     path('<str:username>/posts', views.users_posts, name='users_posts'),
-    # path('<str:username>/posts', views.like_create_view, name='like'),
+    path('<str:username>/users_posts', views.my_posts, name='my_posts'),
+
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

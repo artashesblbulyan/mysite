@@ -120,6 +120,53 @@ def users_posts(request, username):
     return render(request, 'user/posts.html', context=context)
 
 
+def my_posts(request, username):
+    post_user = UserPostsForm(request.POST)
+    comment_form = CommentForm(request.POST)
+    posts_mod = UserPostModel.objects.all()
+    contextlike = Like.objects.all()
+    comment_all = Comment.objects.all()
+    if request.method == "POST":
+        post_user = UserPostsForm.objects.filter(user=request.user)
+        if post_user.is_valid():
+            if request.FILES.get('post_picture', None) is not None:
+                posts = request.POST['posts']
+                status = request.POST['status']
+                post_picture = request.FILES['post_picture']
+                title = request.POST['title']
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status,
+                                             post_picture=post_picture, title=title)
+                return redirect('users_posts', username=request.user.username)
+            else:
+                posts = request.POST['posts']
+                status = request.POST['status']
+                title = request.POST['title']
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
+                return redirect('users_posts', username=request.user.username)
+
+        elif request.POST.get('like', None) is not None:
+            like_create_view(request, username)
+        elif request.POST.get('dislike', None) is not None:
+            dislike_create_view(request, username)
+
+        elif request.POST.get('comment', None) is not None:
+            comment_create_view(request, username)
+            return redirect('users_posts', username=request.user.username)
+    pages = users(request, username)
+    user_image = pages.get('user_image')
+    form_image = pages.get('form_image')
+    context = {"post": post_user,
+               "posts_mod": posts_mod,
+               "user_image": user_image,
+               "form_image": form_image,
+               "contextlike": contextlike,
+               "comment_form": comment_form,
+               "comment_all": comment_all
+               }
+
+    return render(request, 'user/posts.html', context=context)
+
+
 @login_required(login_url="loginuser")
 def users_pos(request, username):
     pages = users(request, username)
