@@ -18,6 +18,7 @@ def registration_views(request):
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
             user_form.save()
+            messages.success("you are registered successfully")
 
     context = {"registration_form": user_form}
 

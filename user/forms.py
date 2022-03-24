@@ -14,6 +14,25 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password1'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password2'}))
 
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+
+
+# class UserCommentForm(forms.ModelForm):
+#     comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}), required=False)
+#
+#     class Meta:
+#         model = UserCommentModel
+#         fields = ('comment',)
+
+
+class RegistrationForm(UserCreationForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your Name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+
     def validate(self, value):
         data = self.get_initial()
         username = data.get("username")
@@ -35,28 +54,6 @@ class UserRegistrationForm(UserCreationForm):
             raise serializers.ValidationError("The password is too similar to the email.")
             messages.error("The password is too similar to the email.")
         return data
-
-
-
-
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
-
-
-# class UserCommentForm(forms.ModelForm):
-#     comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}), required=False)
-#
-#     class Meta:
-#         model = UserCommentModel
-#         fields = ('comment',)
-
-
-class RegistrationForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your Name'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
 
     class Meta:
         model = User
