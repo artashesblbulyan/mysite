@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from user.models import UserImageModel, Comment
 
 
@@ -9,8 +11,30 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password1'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password2'}))
+
+    def validate(self, value):
+        data = self.get_initial()
+        username = data.get("username")
+        email = data.get("email")
+        password1 = data.get("password1")
+        password2 = data.get("password2")
+        max_similarity = 0.7
+        user_qs = User.objects.filter(username=username)
+        if user_qs.exists():
+            raise ValidationError("Username already exist")
+            if (password1 != password2):
+                raise ValidationError("Password and Confirm password does not match")
+                print("Password and Confirm password does not match")
+                messages.error("Password and Confirm password does not match")
+        if SequenceMatcher(a=password.lower(), b=username.lower()).quick_ratio() > max_similarity:
+            raise serializers.ValidationError("The password is too similar to the username.")
+            messages.error("The password is too similar to the username.")
+        if SequenceMatcher(a=password.lower(), b=email.lower()).quick_ratio() > max_similarity:
+            raise serializers.ValidationError("The password is too similar to the email.")
+            messages.error("The password is too similar to the email.")
+        return data
 
 
 

@@ -31,8 +31,12 @@ def userregistration(request):
     user_form = UserRegistrationForm(request.POST)
     if user_form.is_valid():
         user_form.save()
+        messages.success(request, "registered successfully")
     # context = {"registration_form": user_form}
     return user_form
+
+
+
 
 
 def loginuser(request):
@@ -45,8 +49,17 @@ def loginuser(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
+                messages.success(request, "logged in successfully")
                 return redirect('home')
+            else:
+                messages.error(request, "invalid username or password")
     return form_class
+
+
+def home(request):
+    user_form = userregistration(request)
+    form_class = loginuser(request)
+    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
 
 
 def user_logout(request):
@@ -246,10 +259,7 @@ def comment_create_view(request, username):
                 print('error')
 
 
-def home(request):
-    user_form = userregistration(request)
-    form_class = loginuser(request)
-    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
+
 
 
 @login_required(login_url="loginuser")
