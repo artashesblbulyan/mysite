@@ -4,12 +4,17 @@
             <!-- Service Start -->
             <div class="service">
                 <div class="row portfolio-container">
-                        {% for image in image_album %}
+                        {% for image in image_album  %}
                         <div class="col-lg-3 col-md-6 col-sm-12 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
                             <div class="service-item">
                                 <div class="service-img">
                                     <div class="service-overlay">
-                                       <img class="cover_photo_update" src="{{image.profile_picture.url}}" >
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                        <button type="submit" name="profile_picture" value="{{image.profile_picture}}" >profile_picture</button>
+                                        <button type="submit" name="cover_photo"  value="{{image.profile_picture}}">cover_photo</button>
+                                        <button type="submit" name="image_id"  value="{{image.id}}">X</button>
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{image.profile_picture.url}}" ></a>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

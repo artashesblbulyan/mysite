@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, View, TemplateView
 from user.forms import RegistrationForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -74,6 +76,7 @@ def users(request, username):
                 return redirect('users', username=request.user.username)
 
     return {"user_image": user_image, "form_image": form_image}
+
 
 @login_required(login_url="loginuser")
 def users_posts(request, username):
@@ -258,14 +261,58 @@ def edit_profile(request, username):
         if user_form.is_valid():
             user_form.save()
             messages.success(request, f"task {request.user.username} was update successfully")
-    context = {"user_form": user_form,**pages}
+    context = {"user_form": user_form, **pages}
     return render(request, 'user/edit_profile.html', context=context)
 
-
+#
 @login_required(login_url="loginuser")
 def photos(request, username):
     pages = users(request, username)
     image_album = UserImageAlbumsModel.objects.filter(user_id=request.user.id)
+    if request.method == "POST":
+        profile_picture = UserImageModel.objects.get(user_id=request.user.id)
+        if request.POST.get('profile_picture', None) is not None:
+            profile_picture.profile_picture = request.POST['profile_picture']
+            profile_picture.save()
+            return redirect('photos', username=request.user.username)
+        elif request.POST.get('cover_photo', None) is not None:
+            profile_picture.cover_photo = request.POST['cover_photo']
+            profile_picture.save()
+            return redirect('photos', username=request.user.username)
+        elif request.POST.get('image_id', None) is not None:
+            image_album = UserImageAlbumsModel.objects.get(id=request.POST['image_id'])
+            image_album.delete()
+            return redirect('photos', username=request.user.username)
 
     context = {"image_album": image_album, **pages}
     return render(request, 'user/photo.html', context=context)
+
+
+# class Photos(LoginRequiredMixin, ListView):
+#     model = UserImageAlbumsModel
+#     ordering = "-date"
+#     template_name = "user/photo.html"
+#     success_url = 'photos'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(Photos, self).get_context_data(**kwargs)
+#         pages = users(self.request, self.request.user.username)
+#         context["user_image"] = pages.get('user_image')
+#         context["form_image"] = pages.get('form_image')
+#         return context
+#
+#     def get_queryset(self):
+#         qs = super().get_queryset()
+#         return qs.filter(user=self.request.user)
+#
+#     def post(self, request, **kwargs):
+#         pages = users(self.request, self.request.user.username)
+#         messages.success(request, "create")
+#         return redirect("home")
+
+@login_required(login_url="loginuser")
+def photos_viwes(request, username, id):
+    model = UserImageAlbumsModel.objects.get(user__username=username,id=id)
+    pages = users(request, username)
+    context = {"model": model, **pages}
+    return render(request, "user/photo_view.html", context=context)

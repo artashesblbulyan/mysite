@@ -18,9 +18,10 @@ def user_image_directory_path(instance, filename):
 class UserImageModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    profile_picture = models.ImageField(default='/a1.jpg', upload_to=user_image_directory_path)
-    cover_photo = models.ImageField(default='/cover_photo.jpg', upload_to=user_image_directory_path)
-    photo_albums = models.ImageField(upload_to=user_image_directory_path)
+    profile_picture = models.ImageField(default='/a1.jpg', upload_to=user_image_directory_path, blank=True, null=True)
+    cover_photo = models.ImageField(default='/cover_photo.jpg', upload_to=user_image_directory_path, blank=True,
+                                    null=True)
+    photo_albums = models.ImageField(upload_to=user_image_directory_path, blank=True, null=True)
 
     def __str__(self):
         return self.date
