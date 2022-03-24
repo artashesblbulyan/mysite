@@ -261,6 +261,7 @@ def edit_profile(request, username):
     context = {"user_form": user_form,**pages}
     return render(request, 'user/edit_profile.html', context=context)
 
+
 @login_required(login_url="loginuser")
 def photos(request, username):
     pages = users(request, username)
