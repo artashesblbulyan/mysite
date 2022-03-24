@@ -1,0 +1,22 @@
+{% extends 'user/userbase.html' %}
+{% load static %}
+    {% block post %}
+            <!-- Service Start -->
+            <div class="service">
+                <div class="row portfolio-container">
+
+                        <div class="col-lg-3 col-md-6 col-sm-12 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay">
+                                      <a href="{{image.id}}"> <img class="cover_photo_update" src="{{object_list.profile_picture.url}}" ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                </div>
+            </div>
+            <!-- Service End -->
+{% endblock %}
+
