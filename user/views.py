@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from user.forms import UserRegistrationForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm
-from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment
+from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category
 
 
 
@@ -99,6 +99,7 @@ def users_posts(request, username):
     posts_mod = UserPostModel.objects.all()
     contextlike = Like.objects.all()
     comment_all = Comment.objects.all()
+    cathegory = Category.objects.all()
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         if post_user.is_valid():
@@ -107,6 +108,7 @@ def users_posts(request, username):
                 status = request.POST['status']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
+                cath = request.POST['cathegory']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status,
                                              post_picture=post_picture, title=title)
                 return redirect('users_posts', username=request.user.username)
@@ -114,6 +116,7 @@ def users_posts(request, username):
                 posts = request.POST['posts']
                 status = request.POST['status']
                 title = request.POST['title']
+                cath = request.POST['cathegory']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
                 return redirect('users_posts', username=request.user.username)
 

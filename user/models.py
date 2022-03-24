@@ -46,6 +46,24 @@ def user_post_directory_path(instance, filename):
     return 'profile/images/post/{0}/{1}'.format(instance.id, filename)
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField()
+    parent = models.ForeignKey('UserPostModel', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('slug', 'parent',)
+        verbose_name_plural = "categories"
+
+    def __str__(self):
+        full_path = [self.name]
+        k = self.parent
+        while k is not None:
+            full_path.append(k.name)
+            k = k.parent
+        return ' -> '.join(full_path[::-1])
+
+
 class UserPostModel(models.Model):
     STATUS_CHOICE = (
         (0, "PROFILE"),
@@ -60,9 +78,22 @@ class UserPostModel(models.Model):
     title = models.CharField(max_length=200)
     amount_of_likes = models.IntegerField(default=0)
     amount_of_dislikes = models.IntegerField(default=0)
+    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.title
+
+    def get_cat_list(self):
+        k = self.category  # for now ignore this instance method
+
+        breadcrumb = ["dummy"]
+        while k is not None:
+            breadcrumb.append(k.slug)
+            k = k.parent
+        for i in range(len(breadcrumb) - 1):
+            breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
+        return breadcrumb[-1:0:-1]
 
 
 class Like(models.Model):
