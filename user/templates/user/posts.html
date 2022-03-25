@@ -9,10 +9,25 @@
                         <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
                             {{ post.title }}<br>
                             {{ post.posts }}<br>
-                            {{ post.post_picture }}<br>
-                            {{ category.category}}<br>
 
-                            <button type="submit">submit</button>
+                            <div class="row">
+                            {{ category.category}}
+                            {{ post.post_picture }}</div>
+                            <button type="submit" name="id" value="{{post.id}}">Post</button>
+                        </form>
+                        <form method="get" enctype="multipart/form-data" >
+                            <select name="category"  id="id_category">
+                                  <option value="0">Communication</option>
+                                  <option value="1">Conference Report</option>
+                                  <option value="2">Editorial</option>
+                                  <option value="3">Opinion</option>
+                                  <option value="4">Perspective</option>
+                                  <option value="5">Book Review</option>
+                                  <option value="6">Registered Report</option>
+                                  <option value="7">Review</option>
+                                  <option value="8">Else</option>
+                                </select><br>
+                            <button type="submit"  >Filter</button>
                         </form>
                     </div>
                     <div class="row row-1">

@@ -1,9 +1,5 @@
-import threading
-
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.views.generic import ListView, View, TemplateView
 from user.forms import RegistrationForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -36,6 +32,8 @@ def userregistration(request):
     if user_form.is_valid():
         user_form.save()
         messages.success(request, "registered successfully")
+    # else:
+    #     messages.error(request, 'Document deleted.')
     # context = {"registration_form": user_form}
     return user_form
 
@@ -91,7 +89,6 @@ def users_posts(request, username):
     contextlike = Like.objects.all()
     comment_all = Comment.objects.all()
     category = CategoryForm()
-    print(request.POST)
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         category = CategoryForm(request.POST)
@@ -102,13 +99,19 @@ def users_posts(request, username):
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
                                              post_picture=post_picture, title=title)
-                Category.objects.create(cathegories=request.POST['category'])
+                post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
+                for i in request.POST.getlist('category'):
+                    Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
+                messages.success(request, "posts  successfully")
                 return redirect('users_posts', username=request.user.username)
             else:
                 posts = request.POST['posts']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,  title=title)
-                Category.objects.create(cathegories=request.POST['category'])
+                post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
+                for i in request.POST.getlist('category'):
+                    Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
+                messages.success(request, "posts  successfully")
                 return redirect('users_posts', username=request.user.username)
 
         elif request.POST.get('like', None) is not None:
@@ -119,6 +122,14 @@ def users_posts(request, username):
         elif request.POST.get('comment', None) is not None:
             comment_create_view(request, username)
             return redirect('users_posts', username=request.user.username)
+    if request.method == "GET":
+        if request.GET.get('category', None) is not None:
+            queryset = Category.objects.all()
+            queryset = queryset.filter(category=request.GET.get('category'))
+            queryset = queryset.values_list('parent_id', flat=True).order_by('category')
+            posts_mod = []
+            for i in queryset:
+                posts_mod += UserPostModel.objects.filter(id=i)
     pages = users(request, username)
     user_image = pages.get('user_image')
     form_image = pages.get('form_image')

@@ -61,7 +61,7 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     parent = models.ForeignKey("UserPostModel", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    category = models.IntegerField(choices=CATHEGORIES, blank=True, null=True,)
+    category = models.CharField(choices=CATHEGORIES, blank=True, null=True, max_length=10)
 
 
 
@@ -71,6 +71,7 @@ class Category(models.Model):
     #
     def __str__(self):
         return self.category
+
     # def __str__(self):
     #     full_path = [self.name]
     #     k = self.parent
@@ -103,8 +104,8 @@ class UserPostModel(models.Model):
     #         breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
     #     return breadcrumb[-1:0:-1]
 
-    # class Meta:
-    #     ordering = date
+    class Meta:
+        ordering = ['-date']
 
 
 class Like(models.Model):

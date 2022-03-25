@@ -10,9 +10,16 @@
                                 <div class="service-img">
                                     <div class="service-overlay">
                                         <form method="post" enctype="multipart/form-data" >{% csrf_token %}
-                                        <button type="submit" name="profile_picture" value="{{image.profile_picture}}" >profile_picture</button>
-                                        <button type="submit" name="cover_photo"  value="{{image.profile_picture}}">cover_photo</button>
-                                        <button type="submit" name="image_id"  value="{{image.id}}">X</button>
+                                        <button type="submit" name="profile_picture" value="{{image.profile_picture}}" >
+                                            <img src="https://img.icons8.com/ios-glyphs/30/000000/portrait.png"/>
+
+                                        </button>
+                                        <button type="submit" name="cover_photo"  value="{{image.profile_picture}}">
+                                                  <img src="https://img.icons8.com/ios-glyphs/30/000000/add-image.png"/>
+                                        </button>
+                                        <button type="submit" name="image_id"  value="{{image.id}}">
+                                            <img src="https://img.icons8.com/ios-glyphs/30/000000/trash--v1.png"/>
+                                        </button>
                                         <a href="{{image.id}}"> <img class="cover_photo_update" src="{{image.profile_picture.url}}" ></a>
                                         </form>
                                     </div>

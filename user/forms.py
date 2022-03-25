@@ -76,8 +76,8 @@ class UserUpdateImageForm(forms.ModelForm):
 
 class UserPostsForm(forms.Form):
 
-    title = forms.CharField(max_length=200)
-    posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts'}))
+    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Posts', "class": "post_input titel"}))
+    posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts',"class": "post_input posts"}))
     # status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
     post_picture = forms.ImageField(required=False)
 
@@ -96,15 +96,11 @@ class CategoryForm(forms.Form):
     )
 
     category = forms.ChoiceField(choices=CATHEGORIES, required=True,
-        widget=forms.Select(attrs={"multiple":"multiple"}))
-
-
-
-
+        widget=forms.Select(attrs={"multiple":"multiple", "size": "3", "class":"form-category-posts" }))
 
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "rows": "1",
+    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "rows": "2",
                                                            "placeholder": "Comment"}), required=False)
 
     class Meta:
