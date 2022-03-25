@@ -9,8 +9,9 @@
                         <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
                             {{ post.title }}<br>
                             {{ post.posts }}<br>
-                            {{ post.status }}
-                            {{ post.post_picture }}
+                            {{ post.post_picture }}<br>
+                            {{ category.category}}<br>
+
                             <button type="submit">submit</button>
                         </form>
                     </div>
@@ -32,7 +33,7 @@
                             {{task.user.username }}<br>
                             {{task.date }}
                             </div>
-                                    <div class="col-md-5 ">
+                                    <div class="col-md-4 ">
                                     </div>
                                     <div class="col-md-2 ">
                                     <a class="btn" href="#" >+</a>

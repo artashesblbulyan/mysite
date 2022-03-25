@@ -2537,3 +2537,11 @@ element.style {
     justify-content: space-between;
     align-items: center;
 }
+
+.container-cat{
+width: 20%;
+}
+
+.show {
+    display: grid !important;
+}

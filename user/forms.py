@@ -14,7 +14,6 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password1'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'password2'}))
 
-
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
@@ -76,15 +75,32 @@ class UserUpdateImageForm(forms.ModelForm):
 
 
 class UserPostsForm(forms.Form):
-    STATUS_CHOICE = (
-        (0, "COMPLETE"),
-        (1, "RUNNING"),
-        (2, "UPCOMING"),
-    )
+
     title = forms.CharField(max_length=200)
     posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts'}))
-    status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
+    # status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
     post_picture = forms.ImageField(required=False)
+
+
+class CategoryForm(forms.Form):
+    CATHEGORIES = (
+        (0, "Communication"),
+        (1, "Conference Report"),
+        (2, "Editorial"),
+        (3, "Opinion"),
+        (4, "Perspective"),
+        (5, "Book Review"),
+        (6, "Registered Report"),
+        (7, "Review"),
+        (8, "Else"),
+    )
+
+    category = forms.ChoiceField(choices=CATHEGORIES, required=True,
+        widget=forms.Select(attrs={"multiple":"multiple"}))
+
+
+
+
 
 
 class CommentForm(forms.ModelForm):

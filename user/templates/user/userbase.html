@@ -186,7 +186,7 @@
                         <div class="collapse navbar-collapse justify-content-between" id="">
                             <div class="navbar-nav mr-auto">
                                 <a href="{% url 'users_posts' user.username %}" class="nav-item nav-link active">Posts</a>
-                                <a href="#" class="nav-item nav-link">Frends</a>
+                                <a href="{% url 'frends' user.username%}" class="nav-item nav-link">Frends</a>
                                 <a href="{% url 'photos'  user.username %}" class="nav-item nav-link">Photos</a>
                                 <a href="{% url 'edit_profile'  user.username %}" class="nav-item nav-link">Edit_profile</a>
                             </div>

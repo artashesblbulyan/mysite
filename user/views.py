@@ -1,12 +1,15 @@
+import threading
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.views.generic import ListView, View, TemplateView
 from user.forms import RegistrationForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from user.forms import UserRegistrationForm
-from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm
+from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm,CategoryForm
 from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category
 
 
@@ -37,9 +40,6 @@ def userregistration(request):
     return user_form
 
 
-
-
-
 def loginuser(request):
     form_class = UserLoginForm()
     if request.method == "POST":
@@ -55,12 +55,6 @@ def loginuser(request):
             else:
                 messages.error(request, "invalid username or password")
     return form_class
-
-
-def home(request):
-    user_form = userregistration(request)
-    form_class = loginuser(request)
-    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
 
 
 def user_logout(request):
@@ -81,14 +75,11 @@ def users(request, username):
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=0,
                                                     profile_picture=request.FILES['profile_picture'])
-                return redirect('users', username=request.user.username)
-            if request.FILES.get('cover_photo', None) is not None:
+            elif request.FILES.get('cover_photo', None) is not None:
                 profile_picture.cover_photo = request.FILES['cover_photo']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=1,
                                                                  profile_picture=request.FILES['cover_photo'])
-                return redirect('users', username=request.user.username)
-
     return {"user_image": user_image, "form_image": form_image}
 
 
@@ -99,25 +90,25 @@ def users_posts(request, username):
     posts_mod = UserPostModel.objects.all()
     contextlike = Like.objects.all()
     comment_all = Comment.objects.all()
-    cathegory = Category.objects.all()
+    category = CategoryForm()
+    print(request.POST)
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
+        category = CategoryForm(request.POST)
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
-                status = request.POST['status']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
-                cath = request.POST['cathegory']
-                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status,
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts,
                                              post_picture=post_picture, title=title)
+                Category.objects.create(cathegories=request.POST['category'])
                 return redirect('users_posts', username=request.user.username)
             else:
                 posts = request.POST['posts']
-                status = request.POST['status']
                 title = request.POST['title']
-                cath = request.POST['cathegory']
-                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts,  title=title)
+                Category.objects.create(cathegories=request.POST['category'])
                 return redirect('users_posts', username=request.user.username)
 
         elif request.POST.get('like', None) is not None:
@@ -137,7 +128,8 @@ def users_posts(request, username):
                "form_image": form_image,
                "contextlike": contextlike,
                "comment_form": comment_form,
-               "comment_all": comment_all
+               "comment_all": comment_all,
+               "category": category,
                }
     return render(request, 'user/posts.html', context=context)
 
@@ -148,22 +140,23 @@ def my_posts(request, username):
     posts_mod = UserPostModel.objects.filter(user=request.user)
     contextlike = Like.objects.filter(user=request.user)
     comment_all = Comment.objects.filter(user=request.user)
+    category = CategoryForm(request.POST)
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
-                status = request.POST['status']
+                # status = request.POST['status']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
-                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status,
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts,
                                              post_picture=post_picture, title=title)
                 return redirect('users_posts', username=request.user.username)
             else:
                 posts = request.POST['posts']
-                status = request.POST['status']
+                # status = request.POST['status']
                 title = request.POST['title']
-                UserPostModel.objects.create(user_id=request.user.id, posts=posts, status=status, title=title)
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts, title=title)
                 return redirect('users_posts', username=request.user.username)
 
         elif request.POST.get('like', None) is not None:
@@ -183,7 +176,8 @@ def my_posts(request, username):
                "form_image": form_image,
                "contextlike": contextlike,
                "comment_form": comment_form,
-               "comment_all": comment_all
+               "comment_all": comment_all,
+               "category":category
                }
 
     return render(request, 'user/posts.html', context=context)
@@ -263,7 +257,10 @@ def comment_create_view(request, username):
                 print('error')
 
 
-
+def home(request):
+    user_form = userregistration(request)
+    form_class = loginuser(request)
+    return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
 
 
 @login_required(login_url="loginuser")
@@ -330,3 +327,10 @@ def photos_viwes(request, username, id):
     pages = users(request, username)
     context = {"model": model, **pages}
     return render(request, "user/photo_view.html", context=context)
+
+@login_required(login_url="loginuser")
+def frend(request, username):
+    model = User.objects.all()
+    pages = users(request, username)
+    context = {"model": model, **pages}
+    return render(request, "user/frends.html", context=context)

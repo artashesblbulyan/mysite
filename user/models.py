@@ -47,53 +47,64 @@ def user_post_directory_path(instance, filename):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField()
-    parent = models.ForeignKey('UserPostModel', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+    CATHEGORIES = (
+            (0, "Communication"),
+            (1, "Conference Report"),
+            (2, "Editorial"),
+            (3, "Opinion"),
+            (4, "Perspective"),
+            (5, "Book Review"),
+            (6, "Registered Report"),
+            (7, "Review"),
+            (8, "Else"),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parent = models.ForeignKey("UserPostModel", on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    category = models.IntegerField(choices=CATHEGORIES, blank=True, null=True,)
 
-    class Meta:
-        unique_together = ('slug', 'parent',)
-        verbose_name_plural = "categories"
 
+
+    # class Meta:
+    #     unique_together = ('slug', 'parent',)
+    #     verbose_name_plural = "categories"
+    #
     def __str__(self):
-        full_path = [self.name]
-        k = self.parent
-        while k is not None:
-            full_path.append(k.name)
-            k = k.parent
-        return ' -> '.join(full_path[::-1])
+        return self.category
+    # def __str__(self):
+    #     full_path = [self.name]
+    #     k = self.parent
+    #     while k is not None:
+    #         full_path.append(k.name)
+    #         k = k.parent
+    #     return ' -> '.join(full_path[::-1])
 
 
 class UserPostModel(models.Model):
-    STATUS_CHOICE = (
-        (0, "PROFILE"),
-        (1, "COVER"),
-        (2, "ALBUMS"),
-    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS_CHOICE)
     post_picture = models.ImageField(upload_to=user_post_directory_path)
     posts = models.TextField()
     title = models.CharField(max_length=200)
     amount_of_likes = models.IntegerField(default=0)
     amount_of_dislikes = models.IntegerField(default=0)
-    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
-
 
     def __str__(self):
         return self.title
 
-    def get_cat_list(self):
-        k = self.category  # for now ignore this instance method
+    # def get_cat_list(self):
+    #     k = self.category  # for now ignore this instance method
+    #
+    #     breadcrumb = ["dummy"]
+    #     while k is not None:
+    #         breadcrumb.append(k.slug)
+    #         k = k.parent
+    #     for i in range(len(breadcrumb) - 1):
+    #         breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
+    #     return breadcrumb[-1:0:-1]
 
-        breadcrumb = ["dummy"]
-        while k is not None:
-            breadcrumb.append(k.slug)
-            k = k.parent
-        for i in range(len(breadcrumb) - 1):
-            breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
-        return breadcrumb[-1:0:-1]
+    # class Meta:
+    #     ordering = date
 
 
 class Like(models.Model):
