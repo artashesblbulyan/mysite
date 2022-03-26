@@ -198,7 +198,19 @@
                                 <a href="{% url 'photos'  user.username %}" class="nav-item nav-link">Photos</a>
                                 <a href="{% url 'edit_profile'  user.username %}" class="nav-item nav-link">Edit_profile</a>
                             </div>
+<form id="searchform" class="form-inline my-2 my-lg-0" name="searchinputform" method="POST" action=" {% url 'search' name=None %}">
+              {% csrf_token %}
+              <input class="form-control mr-sm-2" type="search" name="searchinput" id="searchinput" placeholder="Search here" >
 
+<script>
+$( "#searchform" ).submit( function( e ) {
+    e.preventDefault();
+
+    document.location = $( "#searchinput" ).val();
+
+  } );
+</script>
+</form>
                         </div>
                     </nav>
                 </div>

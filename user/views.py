@@ -55,6 +55,8 @@ def loginuser(request):
     return form_class
 
 
+
+@login_required(login_url="loginuser")
 def user_logout(request):
     logout(request)
     return redirect("home")
@@ -111,7 +113,7 @@ def users_posts(request, username):
                 post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
                 for i in request.POST.getlist('category'):
                     Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
-                messages.success(request, "posts  successfully")
+                messages.success(request, "posted  successfully")
                 return redirect('users_posts', username=request.user.username)
 
         elif request.POST.get('like', None) is not None:
@@ -145,6 +147,7 @@ def users_posts(request, username):
     return render(request, 'user/posts.html', context=context)
 
 
+@login_required(login_url="loginuser")
 def my_posts(request, username):
     post_user = UserPostsForm(request.POST)
     comment_form = CommentForm(request.POST)
@@ -201,6 +204,7 @@ def users_pos(request, username):
     return render(request, 'user/users.html', context=pages)
 
 
+@login_required(login_url="loginuser")
 def like_create_view(request, username):
 
     if request.method == "POST":
@@ -229,6 +233,7 @@ def like_create_view(request, username):
                     update_amount_like.save()
 
 
+@login_required(login_url="loginuser")
 def dislike_create_view(request, username):
     if request.method == "POST":
         if request.POST['dislike']:
@@ -256,7 +261,7 @@ def dislike_create_view(request, username):
                     update_amount_like.save()
 
 
-
+@login_required(login_url="loginuser")
 def comment_create_view(request, username):
     if request.method == "POST":
         print('error1')
@@ -340,8 +345,17 @@ def photos_viwes(request, username, id):
     return render(request, "user/photo_view.html", context=context)
 
 @login_required(login_url="loginuser")
-def frend(request, username):
+def friend(request, username):
     model = User.objects.all()
     pages = users(request, username)
     context = {"model": model, **pages}
     return render(request, "user/frends.html", context=context)
+
+@login_required(login_url="loginuser")
+def search(request, username,  **kwargs):
+    name = kwargs.get("name")
+    users = User.objects.filter(username=name).first()
+    if users:
+        return render(request, "user/search.html", {"users":users})
+    else:
+        return redirect('home')
