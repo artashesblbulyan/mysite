@@ -26,3 +26,4 @@ def create_album_image(instance, created, sender,  **kwargs):
 
 
 post_save.connect(receiver=create_album_image, sender=User)
+

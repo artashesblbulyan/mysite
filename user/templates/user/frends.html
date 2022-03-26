@@ -10,11 +10,20 @@
                                 <div class="service-img">
                                     <div class="service-overlay portfolio-container-image ">
                                         <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                            {{user.id}}<br>
                                         {{user.username}}<br>
                                         {{user.last_name}}<br>
                                         {{user.first_name}}<br>
                                         {{user.email}}
                                         <a href="{{image.id}}"> <img class="cover_photo_update" src="{{image.profile_picture.url}}" ></a>
+                                                {% for frend in frend_form %}
+                                                 {% if frend.frends == user.id and frend.received == "0" %}
+                                                <button name="received" type="submit" value="{{user.id}}">received</button>
+                                                {% else %}
+                                                 {% if frend.frends == user.id and frend.received == "0" %}
+                                                <button name="frends" type="submit" value="{{user.id}}">send</button>
+                                                {% endif %}
+                                                {% endfor %}
                                         </form>
                                     </div>
                                 </div>

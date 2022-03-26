@@ -6,8 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from user.forms import UserRegistrationForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm,CategoryForm
-from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category
-
+from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category, Frends
 
 
 def registration_views(request):
@@ -89,6 +88,7 @@ def users_posts(request, username):
     contextlike = Like.objects.all()
     comment_all = Comment.objects.all()
     category = CategoryForm()
+    print("HELLLLO")
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         category = CategoryForm(request.POST)
@@ -341,7 +341,17 @@ def photos_viwes(request, username, id):
 
 @login_required(login_url="loginuser")
 def frend(request, username):
-    model = User.objects.all()
+    model = User.objects.exclude(id=request.user.id)
     pages = users(request, username)
-    context = {"model": model, **pages}
+    frend_form = Frends.objects.all()
+    print(request.POST)
+    if request.method == "POST":
+        if request.POST.get('frends'):
+            Frends.objects.get_or_create(user_id=request.user.id, frends=request.POST.get('frends'),sent=1)
+        if request.POST.get('received'):
+           br = Frends.objects.get(user_id=request.POST.get('received'), frends=request.user.id, sent=1)
+           br.received = 1
+           br.save()
+    send =Frends.objects.all()
+    context = {"model": model, "frend_form": frend_form, **pages}
     return render(request, "user/frends.html", context=context)

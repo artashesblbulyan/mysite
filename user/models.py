@@ -136,3 +136,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment
+
+
+
+class Frends(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    frends = models.IntegerField(default=0)
+    received = models.IntegerField(default=0 ,blank=True, null=True)
+    sent = models.IntegerField(default=0,  blank=True, null=True)

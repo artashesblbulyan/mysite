@@ -76,7 +76,7 @@ class UserUpdateImageForm(forms.ModelForm):
 
 class UserPostsForm(forms.Form):
 
-    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Posts', "class": "post_input titel"}))
+    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Titel', "class": "post_input titel"}))
     posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts',"class": "post_input posts"}))
     # status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
     post_picture = forms.ImageField(required=False)
@@ -100,7 +100,7 @@ class CategoryForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "rows": "2",
+    comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control", "rows": "1",
                                                            "placeholder": "Comment"}), required=False)
 
     class Meta:
@@ -108,10 +108,13 @@ class CommentForm(forms.ModelForm):
         fields = ('comment',)
 
 
-# class likeModelForm(forms.ModelForm):
+# class FrendForm(forms.ModelForm):
 #     like = forms.TextInput(widget=forms.TextInput(attrs={"class": "form-control", "rows": "1",
 #                                                            "placeholder": "Comment"}), required=False)
-#
+#     frends = forms.IntegerField(widget=forms.Submit(attrs={"class": "form-control", "rows": "1",
+#                                                            "placeholder": "Comment"}), required=False)
+#     received = forms.IntegerField(default=0, blank=True, null=True)
+#     sent = forms.IntegerField(default=0, blank=True, null=True)
 #     class Meta:
 #         model = Comment
 #         fields = ('comment',)
