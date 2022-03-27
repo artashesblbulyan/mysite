@@ -45,7 +45,10 @@
                             </div>
                             <div class="col-md-4 ">
                             {{task.user.username }}<br>
-                            {{task.created_at }}
+                            {{task.created_at }}<br>
+                               <a href="{% url 'post_view' post.id %}">
+                                   <h2>{{ task.title }}</h2>
+			</a>
                             </div>
                                     <div class="col-md-4 ">
                                     </div>
@@ -74,6 +77,8 @@
                                         <span class="icon">Comment</span>
                                     </button>
                                     <button>Share</button>
+
+
 
                                     {% for comment_a in comment_all %}
                                     {% if comment_a.post_user_id == task.id  %}

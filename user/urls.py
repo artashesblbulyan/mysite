@@ -15,7 +15,8 @@ urlpatterns = [
     path('<str:username>/photos/', views.photos, name='photos'),
     path('<str:username>/photos/<int:id>', views.photos_viwes, name='photo_view'),
     path('<str:username>/friends/', views.friend, name='friends'),
-    path("<str:username>/search/", views.search, name="search")
+    path("<str:username>/search/", views.search, name="search"),
+    path("<str:username>/<int:post_id>", views.post_view, name="post_view"),
 
 
 

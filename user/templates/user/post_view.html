@@ -1,0 +1,29 @@
+{% extends 'user/userbase.html' %}
+{% load static %}
+    {% block post %}
+
+
+<div class="todo-list">
+	<h3>Task</h3>
+		<h2><strong>{{ post_object.title }}</strong></h2>
+        <br>
+		<h2><strong>{{ post_object.posts_picture }}</strong></h2>
+		<br>
+		<h2><strong>{{ post_object.user }}</strong></h2>
+		<br>
+		<h2>{{ task_object.posts }}</h2>
+		<br>
+		<h2>{{ post_object.created_at }}</h2>
+		<br>
+		<h2>{{ task_object.amount_of_likes }}</h2>
+		<h2>{{ task_object.amount_of_dislikes }}</h2>
+		<br>
+
+
+	<a class="btn btn-sm btn-info" href="{% url 'task_update' task_object.id %}">Update</a>
+		<a class="btn btn-sm btn-danger" href="{% url 'task_delete' task_object.id %}">Delete</a>
+
+	</div>
+
+
+{% endblock %}

@@ -351,3 +351,12 @@ def search(request, username):
 # class SearchResultsView(ListView):
 #     model = User
 #     template_name = 'user/search.html'
+
+def post_view(request, post_id):
+
+    if UserPostModel.DoesNotExist:
+        pass
+
+    post = UserPostModel.objects.get(id=post_id)
+
+    return render(request, "user/post_view.html", {"post_object": post})
