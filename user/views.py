@@ -6,38 +6,22 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from user.forms import UserRegistrationForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm,CategoryForm
-from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category, Frends
+from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category, Friends
 
 
-def registration_views(request):
-    user_form = ()
+def user_registration(request):
+    user_form = UserRegistrationForm()
     if request.method == "POST":
-        print(request.POST)
-        user_form = RegistrationForm(request.POST)
+        user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            messages.success("you are registered successfully")
-
-    context = {"registration_form": user_form}
-
-    return render(request, "registration.html", context)
-
-
-def userregistration(request):
-    # user_form = ()
-    # if request.method == "POST":
-    #     print(request.POST)
-    user_form = UserRegistrationForm(request.POST)
-    if user_form.is_valid():
-        user_form.save()
-        messages.success(request, "registered successfully")
-    # else:
-    #     messages.error(request, 'Document deleted.')
-    # context = {"registration_form": user_form}
+            messages.success(request, "registered successfully")
+        else:
+            messages.error(request, 'Document deleted.')
     return user_form
 
 
-def loginuser(request):
+def login_user(request):
     form_class = UserLoginForm()
     if request.method == "POST":
         form_class = UserLoginForm(request.POST)
@@ -54,13 +38,15 @@ def loginuser(request):
     return form_class
 
 
+@login_required(login_url="login_user")
 def user_logout(request):
     logout(request)
     return redirect("home")
 
 
-@login_required(login_url="loginuser")
+@login_required(login_url="login_user")
 def users(request, username):
+    users_search = search(request, username)
     user_image = UserImageModel.objects.get(user_id=request.user.id)
     form_image = UserUpdateImageForm()
     if request.method == "POST":
@@ -76,19 +62,17 @@ def users(request, username):
                 profile_picture.cover_photo = request.FILES['cover_photo']
                 profile_picture.save()
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=1,
-                                                                 profile_picture=request.FILES['cover_photo'])
+                                                    profile_picture=request.FILES['cover_photo'])
     return {"user_image": user_image, "form_image": form_image}
 
 
-@login_required(login_url="loginuser")
-def users_posts(request, username):
+@login_required(login_url="login_user")
+def users_posts_create(request, username):
     post_user = UserPostsForm(request.POST)
     comment_form = CommentForm(request.POST)
     posts_mod = UserPostModel.objects.all()
-    contextlike = Like.objects.all()
     comment_all = Comment.objects.all()
     category = CategoryForm()
-    print("HELLLLO")
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         category = CategoryForm(request.POST)
@@ -118,7 +102,6 @@ def users_posts(request, username):
             like_create_view(request, username)
         elif request.POST.get('dislike', None) is not None:
             dislike_create_view(request, username)
-
         elif request.POST.get('comment', None) is not None:
             comment_create_view(request, username)
             return redirect('users_posts', username=request.user.username)
@@ -137,7 +120,6 @@ def users_posts(request, username):
                "posts_mod": posts_mod,
                "user_image": user_image,
                "form_image": form_image,
-               "contextlike": contextlike,
                "comment_form": comment_form,
                "comment_all": comment_all,
                "category": category,
@@ -157,7 +139,6 @@ def my_posts(request, username):
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
-                # status = request.POST['status']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
@@ -165,7 +146,6 @@ def my_posts(request, username):
                 return redirect('users_posts', username=request.user.username)
             else:
                 posts = request.POST['posts']
-                # status = request.POST['status']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, title=title)
                 return redirect('users_posts', username=request.user.username)
@@ -188,21 +168,21 @@ def my_posts(request, username):
                "contextlike": contextlike,
                "comment_form": comment_form,
                "comment_all": comment_all,
-               "category":category
+               "category": category
                }
 
     return render(request, 'user/posts.html', context=context)
 
 
-@login_required(login_url="loginuser")
+@login_required(login_url="login_user")
 def users_pos(request, username):
     pages = users(request, username)
 
     return render(request, 'user/users.html', context=pages)
 
 
+@login_required(login_url="login_user")
 def like_create_view(request, username):
-
     if request.method == "POST":
         if request.POST['like']:
             try:
@@ -229,6 +209,7 @@ def like_create_view(request, username):
                     update_amount_like.save()
 
 
+@login_required(login_url="login_user")
 def dislike_create_view(request, username):
     if request.method == "POST":
         if request.POST['dislike']:
@@ -256,10 +237,9 @@ def dislike_create_view(request, username):
                     update_amount_like.save()
 
 
-
+@login_required(login_url="login_user")
 def comment_create_view(request, username):
     if request.method == "POST":
-        print('error1')
         if request.POST['comment']:
             try:
                 Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
@@ -269,12 +249,12 @@ def comment_create_view(request, username):
 
 
 def home(request):
-    user_form = userregistration(request)
-    form_class = loginuser(request)
+    user_form = user_registration(request)
+    form_class = login_user(request)
     return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
 
 
-@login_required(login_url="loginuser")
+@login_required(login_url="login_user")
 def edit_profile(request, username):
     pages = users(request, username)
     user_form = UserRegistrationForm(instance=request.user)
@@ -286,8 +266,8 @@ def edit_profile(request, username):
     context = {"user_form": user_form, **pages}
     return render(request, 'user/edit_profile.html', context=context)
 
-#
-@login_required(login_url="loginuser")
+
+@login_required(login_url="login_user")
 def photos(request, username):
     pages = users(request, username)
     image_album = UserImageAlbumsModel.objects.filter(user_id=request.user.id)
@@ -310,48 +290,64 @@ def photos(request, username):
     return render(request, 'user/photo.html', context=context)
 
 
-# class Photos(LoginRequiredMixin, ListView):
-#     model = UserImageAlbumsModel
-#     ordering = "-date"
-#     template_name = "user/photo.html"
-#     success_url = 'photos'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(Photos, self).get_context_data(**kwargs)
-#         pages = users(self.request, self.request.user.username)
-#         context["user_image"] = pages.get('user_image')
-#         context["form_image"] = pages.get('form_image')
-#         return context
-#
-#     def get_queryset(self):
-#         qs = super().get_queryset()
-#         return qs.filter(user=self.request.user)
-#
-#     def post(self, request, **kwargs):
-#         pages = users(self.request, self.request.user.username)
-#         messages.success(request, "create")
-#         return redirect("home")
-
-@login_required(login_url="loginuser")
+@login_required(login_url="login_user")
 def photos_viwes(request, username, id):
     model = UserImageAlbumsModel.objects.get(user__username=username,id=id)
     pages = users(request, username)
     context = {"model": model, **pages}
     return render(request, "user/photo_view.html", context=context)
 
-@login_required(login_url="loginuser")
-def frend(request, username):
+
+@login_required(login_url="login_user")
+def friend(request, username):
     model = User.objects.exclude(id=request.user.id)
+    user_image = UserImageModel.objects.all()
     pages = users(request, username)
-    frend_form = Frends.objects.all()
-    print(request.POST)
+    friend_form = Friends.objects.all()
+    friend_form_send = Friends.objects.filter(user_id=request.user.id)
+    friend_form_received = Friends.objects.filter(friends_id=request.user.id)
+
     if request.method == "POST":
-        if request.POST.get('frends'):
-            Frends.objects.get_or_create(user_id=request.user.id, frends=request.POST.get('frends'),sent=1)
+        if request.POST.get('friends'):
+            Friends.objects.get_or_create(user_id=request.user.id, friends_id=request.POST.get('friends'), sent=1)
         if request.POST.get('received'):
-           br = Frends.objects.get(user_id=request.POST.get('received'), frends=request.user.id, sent=1)
-           br.received = 1
-           br.save()
-    send =Frends.objects.all()
-    context = {"model": model, "frend_form": frend_form, **pages}
-    return render(request, "user/frends.html", context=context)
+           friend = Friends.objects.get(user_id=request.POST.get('received'), friends_id=request.user.id, sent=1)
+           friend.received = 1
+           friend.save()
+
+    if friend_form_send or friend_form_received:
+        context = {
+            "model": model,
+            "friend_image": user_image,
+            "friend_form": friend_form,
+            "friend_form_send": friend_form_send,
+            **pages
+        }
+
+    else:
+        context = {
+            "model": model,
+            "friend_image": user_image,
+            **pages
+        }
+    return render(request, "user/friends.html", context=context)
+
+
+@login_required(login_url="login_user")
+def search(request, username):
+    if request.method == "GET":
+        if request.GET.get('search', None) is not None:
+            users_search = User.objects.filter(username__contains=request.GET["search"])
+            if users_search:
+                context = {
+                    "users_search": users_search,
+                }
+                return render(request, "user/search.html", context=context)
+            else:
+                return redirect('home')
+
+
+# @login_required(login_url="loginuser")
+# class SearchResultsView(ListView):
+#     model = User
+#     template_name = 'user/search.html'

@@ -194,11 +194,22 @@
                         <div class="collapse navbar-collapse justify-content-between" id="">
                             <div class="navbar-nav mr-auto">
                                 <a href="{% url 'users_posts' user.username %}" class="nav-item nav-link active">Posts</a>
-                                <a href="{% url 'frends' user.username%}" class="nav-item nav-link">Frends</a>
+                                <a href="{% url 'friends' user.username%}" class="nav-item nav-link">Frends</a>
                                 <a href="{% url 'photos'  user.username %}" class="nav-item nav-link">Photos</a>
                                 <a href="{% url 'edit_profile'  user.username %}" class="nav-item nav-link">Edit_profile</a>
                             </div>
+            <form id="searchform" class="form-inline my-2 my-lg-0" name="searchinputform"  method="get" >
+              <input class="form-control mr-sm-2" type="search"  name="search" id="searchinput" placeholder="Search here" >
 
+<script>
+$( "#searchform" ).submit( function( e ) {
+    e.preventDefault();
+
+    document.location = "/{{user.username}}/search/?search="+ $( "#searchinput" ).val();
+
+  } );
+</script>
+</form>
                         </div>
                     </nav>
                 </div>

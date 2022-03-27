@@ -14,7 +14,7 @@ from django.utils import timezone
 
 def create_profile_image(instance, created, sender,  **kwargs):
     if created:
-        UserImageModel.objects.create(user=instance, date=timezone.now())
+        UserImageModel.objects.create(user=instance, created_at=timezone.now())
 
 
 post_save.connect(receiver=create_profile_image, sender=User)
@@ -22,7 +22,7 @@ post_save.connect(receiver=create_profile_image, sender=User)
 
 def create_album_image(instance, created, sender,  **kwargs):
     if created:
-        UserImageAlbumsModel.objects.create(user=instance, date=timezone.now(), status=0)
+        UserImageAlbumsModel.objects.create(user=instance, created_at=timezone.now(), status=0)
 
 
 post_save.connect(receiver=create_album_image, sender=User)
