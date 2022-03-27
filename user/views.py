@@ -82,7 +82,7 @@ def users_posts_create(request, username):
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
-                                             post_picture=post_picture, title=title)
+                                             posts_picture=post_picture, title=title)
                 post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
                 for i in request.POST.getlist('category'):
                     Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
