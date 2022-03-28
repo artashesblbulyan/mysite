@@ -76,8 +76,8 @@ class UserUpdateImageForm(forms.ModelForm):
 
 class UserPostsForm(forms.Form):
 
-    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Titel', "class": "post_input titel"}))
-    posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Posts',"class": "post_input posts"}))
+    title = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Title', "class": "post_input titel"}))
+    posts = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description', "class": "post_input posts"}))
     # status = forms.ChoiceField(choices=STATUS_CHOICE, required=True)
     post_picture = forms.ImageField(required=False)
 
