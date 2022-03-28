@@ -78,6 +78,7 @@ class UserPostModel(models.Model):
     posts_picture = models.ImageField(upload_to=user_post_directory_path)
     posts = models.TextField()
     title = models.CharField(max_length=200)
+    share = models.IntegerField(default=0)
     amount_of_likes = models.IntegerField(default=0)
     amount_of_dislikes = models.IntegerField(default=0)
 
@@ -95,8 +96,8 @@ class UserPostModel(models.Model):
     #         breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
     #     return breadcrumb[-1:0:-1]
 
-    class Meta:
-        ordering = ['-created_at']
+    # class Meta:
+    #     ordering = ['-created_at']
 
 
 class Like(models.Model):

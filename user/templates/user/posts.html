@@ -41,19 +41,20 @@
                                 {% endif %}
                                 <div class="service-text">
                                     <div class="col-md-2 ">
-                            <div class="post-user-image" style="background-image: url({{user_image.profile_picture.url}})"></div>
+                                        {% for image in image_all %}
+                                        {% if image.user_id == task.user_id  %}
+                            <div class="post-user-image" style="background-image: url({{image.profile_picture.url}})"></div>
+                                        {% endif %}
+                                        {% endfor %}
                             </div>
                             <div class="col-md-4 ">
-                            {{task.user.username }}<br>
+                            <a href="/{{user.username}}/posts/{{task.id }}">{{task.user.username }}<br></a>
                             {{task.created_at }}<br>
-                               <a href="{% url 'post_view' post.id %}">
-                                   <h2>{{ task.title }}</h2>
-			</a>
                             </div>
                                     <div class="col-md-4 ">
                                     </div>
                                     <div class="col-md-2 ">
-                                    <a class="btn" href="#" >+</a>
+                                    <a class="btn" href="/{{user.username}}/posts/{{task.id }}" >+</a>
 
                                     </div>
                                 </div>
@@ -63,6 +64,7 @@
                                         </p>
                                 </div>
                                 <form method="POST"  enctype="multipart/form-data" >{% csrf_token %}
+
                                     <button id="like" name="like"  type="submit" value={{task.id}}>
                                           <i class="fa fa-thumbs-up"></i>
                                           <span class="icon">Like {{ task.amount_of_likes }}</span>
@@ -76,7 +78,9 @@
                                         <i class="fa fa-comment"></i>
                                         <span class="icon">Comment</span>
                                     </button>
-                                    <button>Share</button>
+                                    <button name="share" type="submit" value="{{task.id}}">
+                                         <i class="fa fa-share"></i>
+                                        <span class="icon">Share</span></button>
 
 
 

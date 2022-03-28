@@ -70,8 +70,9 @@ def users(request, username):
 def users_posts_create(request, username):
     post_user = UserPostsForm(request.POST)
     comment_form = CommentForm(request.POST)
-    posts_mod = UserPostModel.objects.all()
+    posts_mod = UserPostModel.objects.filter(user=request.user)
     comment_all = Comment.objects.all()
+    image_all = UserImageModel.objects.all()
     category = CategoryForm()
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
@@ -97,7 +98,11 @@ def users_posts_create(request, username):
                     Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
                 messages.success(request, "posts  successfully")
                 return redirect('users_posts', username=request.user.username)
-
+        elif request.POST.get('share', None) is not None:
+            id = request.POST['share']
+            post_id = UserPostModel.objects.get(id=id)
+            post_id.share = 1
+            post_id.save()
         elif request.POST.get('like', None) is not None:
             like_create_view(request, username)
         elif request.POST.get('dislike', None) is not None:
@@ -120,6 +125,7 @@ def users_posts_create(request, username):
                "posts_mod": posts_mod,
                "user_image": user_image,
                "form_image": form_image,
+               "image_all": image_all,
                "comment_form": comment_form,
                "comment_all": comment_all,
                "category": category,
@@ -127,37 +133,102 @@ def users_posts_create(request, username):
     return render(request, 'user/posts.html', context=context)
 
 
-def my_posts(request, username):
+# def my_posts(request, username):
+#     post_user = UserPostsForm(request.POST)
+#     comment_form = CommentForm(request.POST)
+#     posts_mod = UserPostModel.objects.filter(user=request.user)
+#     contextlike = Like.objects.filter(user=request.user)
+#     comment_all = Comment.objects.filter(user=request.user)
+#     category = CategoryForm(request.POST)
+#     if request.method == "POST":
+#         post_user = UserPostsForm(request.POST, request.FILES)
+#         if post_user.is_valid():
+#             if request.FILES.get('post_picture', None) is not None:
+#                 posts = request.POST['posts']
+#                 post_picture = request.FILES['post_picture']
+#                 title = request.POST['title']
+#                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
+#                                              post_picture=post_picture, title=title)
+#                 return redirect('users_posts', username=request.user.username)
+#             else:
+#                 posts = request.POST['posts']
+#                 title = request.POST['title']
+#                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, title=title)
+#                 return redirect('users_posts', username=request.user.username)
+#
+#         elif request.POST.get('like', None) is not None:
+#             like_create_view(request, username)
+#         elif request.POST.get('dislike', None) is not None:
+#             dislike_create_view(request, username)
+#
+#         elif request.POST.get('comment', None) is not None:
+#             comment_create_view(request, username)
+#             return redirect('users_posts', username=request.user.username)
+#     pages = users(request, username)
+#     user_image = pages.get('user_image')
+#     form_image = pages.get('form_image')
+#     context = {"post": post_user,
+#                "posts_mod": posts_mod,
+#                "user_image": user_image,
+#                "form_image": form_image,
+#                "contextlike": contextlike,
+#                "comment_form": comment_form,
+#                "comment_all": comment_all,
+#                "category": category
+#                }
+#
+#     return render(request, 'user/posts.html', context=context)
+
+
+@login_required(login_url="login_user")
+def users_pos(request, username):
     post_user = UserPostsForm(request.POST)
     comment_form = CommentForm(request.POST)
-    posts_mod = UserPostModel.objects.filter(user=request.user)
-    contextlike = Like.objects.filter(user=request.user)
-    comment_all = Comment.objects.filter(user=request.user)
-    category = CategoryForm(request.POST)
+    posts_mod = UserPostModel.objects.filter(share=1).order_by('-created_at')
+    comment_all = Comment.objects.all()
+    image_all = UserImageModel.objects.all()
+    category = CategoryForm()
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
+        category = CategoryForm(request.POST)
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
                 post_picture = request.FILES['post_picture']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
-                                             post_picture=post_picture, title=title)
+                                             posts_picture=post_picture, title=title, share=1)
+                post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
+                for i in request.POST.getlist('category'):
+                    Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
+                messages.success(request, "posts  successfully")
                 return redirect('users_posts', username=request.user.username)
             else:
                 posts = request.POST['posts']
                 title = request.POST['title']
                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, title=title)
+                post_id = UserPostModel.objects.all().get(user_id=request.user.id, posts=posts, title=title)
+                for i in request.POST.getlist('category'):
+                    Category.objects.create(category=i, user_id=request.user.id, parent_id=post_id.id)
+                messages.success(request, "posts  successfully")
                 return redirect('users_posts', username=request.user.username)
-
+        elif request.POST.get('order', None) is not None:
+            posts_mod = UserPostModel.objects.filter(share=1).order_by("-"+request.POST.get('order'))
         elif request.POST.get('like', None) is not None:
             like_create_view(request, username)
         elif request.POST.get('dislike', None) is not None:
             dislike_create_view(request, username)
-
         elif request.POST.get('comment', None) is not None:
             comment_create_view(request, username)
-            return redirect('users_posts', username=request.user.username)
+            return redirect('users', username=request.user.username)
+    if request.method == "GET":
+        if request.GET.get('category', None) is not None:
+            queryset = Category.objects.all()
+            queryset = queryset.filter(category=request.GET.get('category'))
+            queryset = queryset.values_list('parent_id', flat=True).order_by('category')
+            posts_mod = []
+            for i in queryset:
+                posts_mod += UserPostModel.objects.filter(id=i)
     pages = users(request, username)
     user_image = pages.get('user_image')
     form_image = pages.get('form_image')
@@ -165,20 +236,12 @@ def my_posts(request, username):
                "posts_mod": posts_mod,
                "user_image": user_image,
                "form_image": form_image,
-               "contextlike": contextlike,
+               "image_all": image_all,
                "comment_form": comment_form,
                "comment_all": comment_all,
-               "category": category
+               "category": category,
                }
-
-    return render(request, 'user/posts.html', context=context)
-
-
-@login_required(login_url="login_user")
-def users_pos(request, username):
-    pages = users(request, username)
-
-    return render(request, 'user/users.html', context=pages)
+    return render(request, 'user/users.html', context=context)
 
 
 @login_required(login_url="login_user")
@@ -251,6 +314,8 @@ def comment_create_view(request, username):
 def home(request):
     user_form = user_registration(request)
     form_class = login_user(request)
+    if request.user.is_authenticated:
+        return redirect('users', username=request.user.username)
     return render(request, 'index.html', {"registration_form": user_form, "login_form": form_class})
 
 
@@ -292,7 +357,7 @@ def photos(request, username):
 
 @login_required(login_url="login_user")
 def photos_viwes(request, username, id):
-    model = UserImageAlbumsModel.objects.get(user__username=username,id=id)
+    model = UserImageAlbumsModel.objects.get(user__username=username, id=id)
     pages = users(request, username)
     context = {"model": model, **pages}
     return render(request, "user/photo_view.html", context=context)
@@ -351,12 +416,23 @@ def search(request, username):
 # class SearchResultsView(ListView):
 #     model = User
 #     template_name = 'user/search.html'
+@login_required(login_url="login_user")
+def post_view(request, username, post_id):
+    if request.method == "POST":
+        if request.POST.get('comment_delete'):
+            comment_all = Comment.objects.get(id=request.POST.get('comment_delete'))
+            comment_all.delete()
+        if request.POST.get('post_delete'):
+            comment_all = UserPostModel.objects.get(user__username=username, id=request.POST.get('post_delete'))
+            comment_all.delete()
+            return redirect('users_posts', username=request.user.username)
+    post = UserPostModel.objects.get(user__username=username, id=post_id)
+    pages = users(request, username)
+    comment_all = Comment.objects.filter(post_user_id=post_id)
+    context = {
+        "comment_all": comment_all,
+        "post_object": post,
+        **pages
+    }
+    return render(request, "user/post_view.html", context=context)
 
-def post_view(request, post_id):
-
-    if UserPostModel.DoesNotExist:
-        pass
-
-    post = UserPostModel.objects.get(id=post_id)
-
-    return render(request, "user/post_view.html", {"post_object": post})

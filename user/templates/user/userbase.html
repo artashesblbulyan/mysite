@@ -13,12 +13,12 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-        <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>-->
+<!--        <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">-->
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--        <meta http-equiv="X-UA-Compatible" content="ie=edge" />-->
+
         <!-- Template Stylesheet -->
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
     </head>
@@ -31,7 +31,7 @@
                     <div class="row align-items-center">
                            <div class="col-lg-0 ">
                             <div class="logo">
-                                <a href="index.html">
+                                <a href="{% url 'home' %}">
 <!--                                    <h1>MA Partners </h1>-->
                                      <img src="{% static 'img/4.png'%}" alt="Logo">
                                 </a>
@@ -70,7 +70,7 @@
                                 <button class="btn" type="submit" onclick="openFormLogin(),closeForm()">Login</button>
                                 <button class="btn" type="submit" onclick="openForm(),closeFormLogin()">Registration</button>
                                 {% else %}
-                                <a href="{% url 'my_posts' user.username%}"><button class="btn" >{{ user.first_name}} {{ user.last_name }}</button></a>
+                                <a href="{% url 'users' user.username%}"><button class="btn" >{{ user.first_name}} {{ user.last_name }}</button></a>
                                 <button class="btn" type="submit" ><a href="{% url 'user_logout' %}">Logout</a></button>
                                 {% endif%}
                             </div>
@@ -256,7 +256,7 @@ $( "#searchform" ).submit( function( e ) {
         <script src="{% static 'lib/wow/wow.min.js' %}"></script>
         <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
         <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
-
+        <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
         <!-- Template Javascript -->
         <script src="{% static 'js/main.js' %}"></script>
