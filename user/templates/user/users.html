@@ -15,8 +15,12 @@
                             {{ post.post_picture }}</div>
                             <button type="submit" name="id" value="{{post.id}}">Post</button>
                         </form>
+                         <div class="row row-1">
+
                         <form method="get" enctype="multipart/form-data" >
-                            <select name="category"  id="id_category">
+                            <div class="form-group row">
+                            <div class="col-sm-9">
+                            <select name="category"  id="id_category" class="form-control" aria-label="Default select example">
                                   <option value="0">Communication</option>
                                   <option value="1">Conference Report</option>
                                   <option value="2">Editorial</option>
@@ -27,27 +31,44 @@
                                   <option value="7">Review</option>
                                   <option value="8">Else</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-3">
                             <button type="submit"  >Filter</button>
+                            </div>
+                                 </div>
                         </form>
-                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
-                            <select name="order"  id="order">
+
+                        <form method="post" enctype="multipart/form-data"  >{% csrf_token %}
+                            <div class="form-group row">
+                             <div class="col-sm-9">
+                            <select name="order"  id="order" class="form-control" >
                                   <option value="created_at">Created at</option>
                                   <option value="amount_of_likes">Likes</option>
                                   <option value="amount_of_dislikes">Dislikes</option>
-                                </select>
-                            <button type="submit">Order by</button>
+                            </select>
+                             </div>
+                            <div class="col-sm-3 col-form-label">
+                                <button  type="submit">Order by</button>
+                            </div>
+                                </div>
                         </form>
-                    </div>
-                    <div class="row row-1">
 
                         {% for task in posts_mod %}
-                        <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="col-lg-10 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="service-item" style="background-image:">
-                                {% if task.posts_picture %}
+
+                                {% if task.posts_picture.width  is None %}
+                              <video width="100%" height="100%" controls>
+                                      <source src="{{task.posts_picture.url}}" type="video/mp4">
+                                      <source src="movie.ogg" type="video/ogg">
+                                      Your browser does not support the video tag.
+                                    </video>
+                                {% elif task.posts_picture %}
                                 <div class="service-img">
                                     <img src="{{task.posts_picture.url}}" alt="{{tasks.service_name}}">
                                 </div>
-                                {% endif %}
+                                  {% endif %}
+
                                 <div class="service-text">
                                     <div class="col-md-2 ">
                                         {% for image in image_all %}

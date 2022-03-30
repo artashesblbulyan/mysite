@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
-from user.forms import RegistrationForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from user.forms import UserRegistrationForm
+from user.forms import UserRegistrationForm, CommentForm
 from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm,CategoryForm
 from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category, Friends
 
@@ -12,12 +11,13 @@ from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Lik
 def user_registration(request):
     user_form = UserRegistrationForm()
     if request.method == "POST":
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            user_form.save()
-            messages.success(request, "registered successfully")
-        else:
-            messages.error(request, 'Document deleted.')
+        if request.POST.get('register-submit', None) is not None:
+            user_form = UserRegistrationForm(request.POST)
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, "registered successfully")
+            else:
+                messages.error(request, 'Registration failed')
     return user_form
 
 
@@ -133,53 +133,6 @@ def users_posts_create(request, username):
     return render(request, 'user/posts.html', context=context)
 
 
-# def my_posts(request, username):
-#     post_user = UserPostsForm(request.POST)
-#     comment_form = CommentForm(request.POST)
-#     posts_mod = UserPostModel.objects.filter(user=request.user)
-#     contextlike = Like.objects.filter(user=request.user)
-#     comment_all = Comment.objects.filter(user=request.user)
-#     category = CategoryForm(request.POST)
-#     if request.method == "POST":
-#         post_user = UserPostsForm(request.POST, request.FILES)
-#         if post_user.is_valid():
-#             if request.FILES.get('post_picture', None) is not None:
-#                 posts = request.POST['posts']
-#                 post_picture = request.FILES['post_picture']
-#                 title = request.POST['title']
-#                 UserPostModel.objects.create(user_id=request.user.id, posts=posts,
-#                                              post_picture=post_picture, title=title)
-#                 return redirect('users_posts', username=request.user.username)
-#             else:
-#                 posts = request.POST['posts']
-#                 title = request.POST['title']
-#                 UserPostModel.objects.create(user_id=request.user.id, posts=posts, title=title)
-#                 return redirect('users_posts', username=request.user.username)
-#
-#         elif request.POST.get('like', None) is not None:
-#             like_create_view(request, username)
-#         elif request.POST.get('dislike', None) is not None:
-#             dislike_create_view(request, username)
-#
-#         elif request.POST.get('comment', None) is not None:
-#             comment_create_view(request, username)
-#             return redirect('users_posts', username=request.user.username)
-#     pages = users(request, username)
-#     user_image = pages.get('user_image')
-#     form_image = pages.get('form_image')
-#     context = {"post": post_user,
-#                "posts_mod": posts_mod,
-#                "user_image": user_image,
-#                "form_image": form_image,
-#                "contextlike": contextlike,
-#                "comment_form": comment_form,
-#                "comment_all": comment_all,
-#                "category": category
-#                }
-#
-#     return render(request, 'user/posts.html', context=context)
-
-
 @login_required(login_url="login_user")
 def users_pos(request, username):
     post_user = UserPostsForm(request.POST)
@@ -249,7 +202,7 @@ def like_create_view(request, username):
     if request.method == "POST":
         if request.POST['like']:
             try:
-                like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['like'],like=1)
+                like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['like'], like=1)
                 like.delete()
                 update_amount_like = UserPostModel.objects.get(id=request.POST['like'])
                 update_amount_like.amount_of_likes -= 1
@@ -282,7 +235,7 @@ def dislike_create_view(request, username):
                 update_amount_dislike = UserPostModel.objects.get(id=request.POST['dislike'])
                 update_amount_dislike.amount_of_dislikes -= 1
                 update_amount_dislike.save()
-            except:
+            except :
                 try:
                     like = Like.objects.get(user_id=request.user.id, post_user_id=request.POST['dislike'], like=1)
                     like.delete()
@@ -304,11 +257,10 @@ def dislike_create_view(request, username):
 def comment_create_view(request, username):
     if request.method == "POST":
         if request.POST['comment']:
-            try:
-                Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
-                                       comment=request.POST['comment'])
-            except:
-                print('error')
+            Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
+                                   comment=request.POST['comment'])
+        else:
+            return redirect('users_posts', username=request.user.username)
 
 
 def home(request):
@@ -327,7 +279,9 @@ def edit_profile(request, username):
         user_form = UserRegistrationForm(request.POST, instance=request.user)
         if user_form.is_valid():
             user_form.save()
-            messages.success(request, f"task {request.user.username} was update successfully")
+            messages.success(request, f"Profile {request.user.username} was update successfully")
+        else:
+            messages.error(request, f"Profile {request.user.username} failed to update")
     context = {"user_form": user_form, **pages}
     return render(request, 'user/edit_profile.html', context=context)
 
@@ -341,10 +295,12 @@ def photos(request, username):
         if request.POST.get('profile_picture', None) is not None:
             profile_picture.profile_picture = request.POST['profile_picture']
             profile_picture.save()
+            messages.success(request, "Profile picture is updated successfully")
             return redirect('photos', username=request.user.username)
         elif request.POST.get('cover_photo', None) is not None:
             profile_picture.cover_photo = request.POST['cover_photo']
             profile_picture.save()
+            messages.success(request, "Cover photo is updated successfully")
             return redirect('photos', username=request.user.username)
         elif request.POST.get('image_id', None) is not None:
             image_album = UserImageAlbumsModel.objects.get(id=request.POST['image_id'])
@@ -365,57 +321,83 @@ def photos_viwes(request, username, id):
 
 @login_required(login_url="login_user")
 def friend(request, username):
-    model = User.objects.exclude(id=request.user.id)
+
     user_image = UserImageModel.objects.all()
     pages = users(request, username)
-    friend_form = Friends.objects.all()
-    friend_form_send = Friends.objects.filter(user_id=request.user.id)
-    friend_form_received = Friends.objects.filter(friends_id=request.user.id)
+    friend_form = Friends.objects.all().filter(user_id=request.user.id, sent=1, received=1)
+    friend_form_1 = Friends.objects.all().filter(friends_id=request.user.id, sent=1, received=1)
 
-    if request.method == "POST":
-        if request.POST.get('friends'):
-            Friends.objects.get_or_create(user_id=request.user.id, friends_id=request.POST.get('friends'), sent=1)
-        if request.POST.get('received'):
-           friend = Friends.objects.get(user_id=request.POST.get('received'), friends_id=request.user.id, sent=1)
-           friend.received = 1
-           friend.save()
+    model = User.objects.exclude(id=request.user.id)
+    # if request.method == "POST":
+    #     if request.POST.get('friends'):
+    #         Friends.objects.get_or_create(user_id=request.user.id, friends_id=request.POST.get('friends'), sent=1)
+    #     elif request.POST.get('received'):
+    #         received = Friends.objects.get(user_id=request.POST.get('received'), friends_id=request.user.id, sent=1)
+    #         received.received = 1
+    #         received.save()
+    # if friend_form_send or friend_form_received:
+    context = {
+        "model": model,
+        "friend_image": user_image,
+        "friend_form": friend_form,
+        "friend_form_1": friend_form_1,
 
-    if friend_form_send or friend_form_received:
-        context = {
-            "model": model,
-            "friend_image": user_image,
-            "friend_form": friend_form,
-            "friend_form_send": friend_form_send,
-            **pages
-        }
-
-    else:
-        context = {
-            "model": model,
-            "friend_image": user_image,
-            **pages
-        }
+        **pages
+    }
+    # else:
+    #     context = {
+    #         "model": model,
+    #         "friend_image": user_image,
+    #         **pages
+    #     }
     return render(request, "user/friends.html", context=context)
 
 
 @login_required(login_url="login_user")
+def people(request, username):
+    model = User.objects.exclude(id=request.user.id)
+    user_image = UserImageModel.objects.all()
+    friend_form = Friends.objects.all().filter(user_id=request.user.id, sent=1, received=1)
+    friend_form_3 = Friends.objects.all().filter(user_id=request.user.id, sent=1, received=0)
+    friend_form_1 = Friends.objects.all().filter(friends_id=request.user.id, sent=1, received=1)
+    friend_form_2 = Friends.objects.all().filter(friends_id=request.user.id, sent=1, received=0)
+    pages = users(request, username)
+    if request.method == "POST":
+        if request.POST.get('friends'):
+            Friends.objects.get_or_create(user_id=request.user.id, friends_id=request.POST.get('friends'), sent=1)
+        elif request.POST.get('received'):
+            received = Friends.objects.get(user_id=request.POST.get('received'), friends_id=request.user.id, sent=1)
+            received.received = 1
+            received.save()
+
+    context = {
+        "model": model,
+        "friend_image": user_image,
+        "friend_form": friend_form,
+        "friend_form_1": friend_form_1,
+        "friend_form_2": friend_form_2,
+        "friend_form_3": friend_form_3,
+        **pages
+    }
+
+    return render(request, "user/People.html", context=context)
+
+@login_required(login_url="login_user")
 def search(request, username):
+    # pages = users(request, username)
     if request.method == "GET":
         if request.GET.get('search', None) is not None:
             users_search = User.objects.filter(username__contains=request.GET["search"])
             if users_search:
                 context = {
                     "users_search": users_search,
+                    # **pages
                 }
                 return render(request, "user/search.html", context=context)
             else:
-                return redirect('home')
+                return redirect('search')
 
 
-# @login_required(login_url="loginuser")
-# class SearchResultsView(ListView):
-#     model = User
-#     template_name = 'user/search.html'
 @login_required(login_url="login_user")
 def post_view(request, username, post_id):
     if request.method == "POST":

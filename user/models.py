@@ -54,22 +54,8 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(choices=CATHEGORIES, blank=True, null=True, max_length=10)
 
-
-
-    # class Meta:
-    #     unique_together = ('slug', 'parent',)
-    #     verbose_name_plural = "categories"
-    #
     def __str__(self):
         return self.category
-
-    # def __str__(self):
-    #     full_path = [self.name]
-    #     k = self.parent
-    #     while k is not None:
-    #         full_path.append(k.name)
-    #         k = k.parent
-    #     return ' -> '.join(full_path[::-1])
 
 
 class UserPostModel(models.Model):
@@ -85,19 +71,8 @@ class UserPostModel(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_cat_list(self):
-    #     k = self.category  # for now ignore this instance method
-    #
-    #     breadcrumb = ["dummy"]
-    #     while k is not None:
-    #         breadcrumb.append(k.slug)
-    #         k = k.parent
-    #     for i in range(len(breadcrumb) - 1):
-    #         breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
-    #     return breadcrumb[-1:0:-1]
-
-    # class Meta:
-    #     ordering = ['-created_at']
+    class Meta:
+        ordering = ['-created_at']
 
 
 class Like(models.Model):
@@ -109,15 +84,6 @@ class Like(models.Model):
 
     def __str__(self):
         return self.like, self.dislike
-
-# class DisLike(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     dislike = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.Dislike
 
 
 class Comment(models.Model):

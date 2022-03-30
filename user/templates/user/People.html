@@ -1,0 +1,142 @@
+{% extends 'user/userbase.html' %}
+{% load static %}
+    {% block post %}
+
+            <!-- Service End -->
+            <div class="service">
+                <div class="row portfolio-container">
+                        {% for user_a in model  %}
+                    {% for form in friend_form %}
+                    {% if  user_a.id == form.friends_id %}
+                    <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+                                            <p>Frends</p>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      {% endif %}
+                      {% endfor %}
+                    {% for form_1 in friend_form_1 %}
+                    {% if user_a.id == form_1.user_id  %}
+                        <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+                                            <p>Frends</p>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       {% endif %}
+                        {% endfor %}
+                     {% for form_1 in friend_form_2 %}
+                    {% if user_a.id == form_1.user_id  %}
+                        <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+                                            <p>Frends -</p>
+                                        <button type="submit" name="received" value="{{ user_a.id }}">Send Frends</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       {% endif %}
+                        {% endfor %}
+                       {% for form_1 in friend_form_3 %}
+                    {% if user_a.id == form_1.friends_id  %}
+                        <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+                                            <p>Frends +</p>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       {% endif %}
+                        {% endfor %}
+                    {% if user_a.id is not friend_form_3 and user_a.id is not friend_form_2 and user_a.id is not friend_form_1%}
+                    <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+                                            <p>Frends +aaaa</p>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                     {% endfor %}
+
+                </div>
+            </div>
+{% endblock %}
+

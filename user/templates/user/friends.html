@@ -5,6 +5,33 @@
             <div class="service">
                 <div class="row portfolio-container">
                         {% for user_a in model  %}
+                    {% for form in friend_form %}
+                    {% if  user_a.id == form.friends_id or user_a.id == form_1.user_id  %}
+                    <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item">
+                                <div class="service-img">
+                                    <div class="service-overlay portfolio-container-image ">
+                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                                  {% for img in friend_image %}
+                                            {% if img.user_id == user_a.id %}
+                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{img.profile_picture.url}}" ></a>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        {{user_a.username}}<br>
+                                        {{user_a.last_name}}<br>
+                                        {{user_a.first_name}}<br>
+                                        {{user_a.email}}
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      {% endif %}
+                      {% endfor %}
+                    {% for form_1 in friend_form_1 %}
+                    {% if user_a.id == form_1.user_id  %}
                         <div class="col-lg-2 col-md-8 col-sm-3 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
                             <div class="service-item">
                                 <div class="service-img">
@@ -21,32 +48,14 @@
                                         {{user_a.first_name}}<br>
                                         {{user_a.email}}
 
-                                    {% if friend_form_send  %}
-                                            {% for from in friend_form %}
-   {% if from.user_id == user_a.id and from.friends_id == user.id and from.sent == 1 and from.received == 0 %}
-                        <button name="received"  value="{{user_a.id}}">Sent you a friends request</button>
-
-   {% elif  from.user_id == user.id and from.friends_id == user_a.id and from.sent == 1 and from.received == 0 %}
-                                <p>Friend request sent</p>
-   {% elif  from.user_id == user.id and from.friends_id == user_a.id and from.sent == 1 and from.received == 1 %}
-                        <p>Frends</p>
-
-    {% elif  from.user_id == user_a.id and from.friends_id == user.id and from.sent == 1 and from.received == 1 %}
-                        <p>Frends</p>
-
-                         {% endif %}
-                        {% endfor %}
-
-            <button name="friends" type="submit" class="" value="{{user_a.id}}">Add Friend</button>
-                         {% else %}
-
-                         <button name="friends" type="submit" value="{{user_a.id}}">Add Friend</button>
-                          {% endif %}
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                       {% endif %}
+                        {% endfor %}
                         {% endfor %}
                 </div>
             </div>

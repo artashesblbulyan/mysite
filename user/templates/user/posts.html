@@ -15,8 +15,10 @@
                             {{ post.post_picture }}</div>
                             <button type="submit" name="id" value="{{post.id}}">Post</button>
                         </form>
+
                         <form method="get" enctype="multipart/form-data" >
-                            <select name="category"  id="id_category">
+                             <div class="row">
+                            <select name="category" class="form-category-posts" id="id_category">
                                   <option value="0">Communication</option>
                                   <option value="1">Conference Report</option>
                                   <option value="2">Editorial</option>
@@ -26,19 +28,28 @@
                                   <option value="6">Registered Report</option>
                                   <option value="7">Review</option>
                                   <option value="8">Else</option>
-                                </select><br>
-                            <button type="submit"  >Filter</button>
+                                </select>
+                            <button type="submit" class="filter-submit" >Filter</button>
+                                  </div>
                         </form>
+
                     </div>
                     <div class="row row-1">
                         {% for task in posts_mod %}
-                        <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="service-item" style="background-image:">
-                                {% if task.posts_picture %}
+                                   {% if task.posts_picture.width  is None %}
+                              <video width="100%" height="100%" controls>
+                                      <source src="{{task.posts_picture.url}}" type="video/mp4">
+                                      <source src="movie.ogg" type="video/ogg">
+                                      Your browser does not support the video tag.
+                                    </video>
+                                {% elif task.posts_picture %}
                                 <div class="service-img">
                                     <img src="{{task.posts_picture.url}}" alt="{{tasks.service_name}}">
                                 </div>
-                                {% endif %}
+                                  {% endif %}
+
                                 <div class="service-text">
                                     <div class="col-md-2 ">
                                         {% for image in image_all %}
