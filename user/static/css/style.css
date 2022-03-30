@@ -37,10 +37,10 @@ a:focus {
 
 .wrapper {
     position: relative;
-    width: 100%;
+    width: 70%;
     max-width: 1366px;
     margin: 0 auto;
-    background: #ffffff;
+    background: #f0f2f5;
 }
 
 .back-to-top {
@@ -87,7 +87,7 @@ a:focus {
     padding: 0px 0;
     text-align: left;
     overflow: hidden;
-    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
+
 
 }
 
@@ -177,12 +177,13 @@ a:focus {
 }
 
 .nav-bar.nav-sticky {
-    position: fixed;
+position: fixed;
     top: 0;
     width: 100%;
+    left: 0%;
     max-width: 1366px;
     box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
-    z-index: 999;
+    z-index: 2;
 }
 
 .nav-bar .navbar {
@@ -194,9 +195,14 @@ a:focus {
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
-    padding: 10px 10px 8px 10px;
+    padding: 10px 10px 10px 10px;
     color: #000000;
-    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
+    text-align: center;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--primary-text);
+    font-size: .9375rem;
+    width: auto;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover,
@@ -253,7 +259,7 @@ a:focus {
     .nav-bar a.nav-link {
         padding: 8px 15px;
         font-size: 15px;
-        text-transform: uppercase;
+
     }
 }
 
@@ -294,6 +300,7 @@ a:focus {
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 0;
 }
 
 .carousel .carousel-item img {
@@ -489,15 +496,14 @@ a:focus {
 /******* Section Header ********/
 /*******************************/
 .section-header {
-    position: relative;
-    width: 100%;
+        position: relative;
+    width: 71%;
     margin-bottom: 45px;
+    left: 33%;
 }
 
 .section-header p {
     color: #ffffff;
-    font-size: 18px;
-    font-weight: 600;
     margin-bottom: 5px;
 }
 
@@ -534,7 +540,7 @@ a:focus {
 
 .feature .feature-item {
     min-height: 0px;
-    padding: 10px;
+    padding: 0px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -586,11 +592,11 @@ a:focus {
 }
 
 .feature .feature-text {
-    padding-left: 30px;
+    padding-left: 50px;
 }
 
 .feature .feature-text h3 {
-    margin: 0 0 10px 0;
+    margin: 0 0 0 0;
     color: #ffffff;
     font-size: 25px;
     font-weight: 600;
@@ -764,11 +770,12 @@ a:focus {
     height: 100%;
     top: 0;
     left: 0;
-    padding: 30px;
+    padding: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgb(255 255 255);
+    border-bottom: 1px solid;
 
 }
 
@@ -1070,8 +1077,8 @@ a:focus {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: nowrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: -12px;
+    margin-left: -12px;
     justify-content: space-between;
     align-items: center;
 }
@@ -2426,6 +2433,17 @@ a:focus {
     background-size: 50px;
     background-repeat: no-repeat;
     }
+ .post-user-image-comment{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    }
+
+
+
+
 .nav-bar-2{
 background: #ffffff;
 box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
@@ -2439,21 +2457,19 @@ box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%),
     width: 48%;
 
 }
-
-
-
 .nav-bar-2.nav-sticky {
     position: fixed;
     top: 0px;
     width: 0;
-    left: 40%;
+    left: 27%;
     max-width: 1367px;
-    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
-    z-index: 999;
+
 }
 .nav-bar-2 .navbar {
     height: 100%;
     background: #ffffff !important;
+    width: 600px;
+
 }
 .ksagamin-gindugun .kedsaainu-menestab{
 padding:0em;
@@ -2499,11 +2515,11 @@ z-index: 3;
 
 }
 .coment {
-     box-shadow: 4px 4px 5px 4px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
-     border-radius: 14px;
+     box-shadow: 0 1px 2px 1px rgb(0 0 0 / 17%);
+    border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;background: #ffffff;
      margin: 5px;
      padding: 5px;
-     background: rgb(255 255 255);
+     background: rgb(240 242 245);
      color: black;
 }
 
@@ -2524,11 +2540,10 @@ z-index: 3;
     align-items: center;
     justify-content: center;
     background: rgb(255 255 255);
+    border-top: 1px solid;
 }
 
-#id_cover_photo,#id_profile_picture {
-  display: none;
-}
+
 
 .cover_photo_update,.profile_picture_update{
     width: 20%;
@@ -2537,8 +2552,8 @@ z-index: 3;
 #id_cover_photo_form {
     position: absolute;
     z-index: 3;
-    left: 1150px;
-    top: 25px;
+    left: 670px;
+    top: 110px;
     }
 
 .like_button_div {
@@ -2569,10 +2584,9 @@ width: 20%;
 }
 
 .post_input{
-width: 50%;
-color: #000000;
+    width: 100%;
+    color: #000000;
     height: 40px;
-
     border-radius: 0;
     border-width: 1px;
     border-color: rgba(256, 256, 256, .4);
@@ -2581,29 +2595,40 @@ color: #000000;
     margin: 1% auto;
 }
 .form-category-posts{
-width: 22%;
+width: 100%;
     color: #000000;
     height: 40px;
     border-radius: 0;
-    border-width: 1px;
-    border-color: rgba(256, 256, 256, .4);
-    background: transparent;
-    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
-    margin: 1% auto;
-    margin-left: 25.8%;
+
 }
 
 #id_post_picture{
-    width: 26%;
-    color: #000000;
-    height: 40px;
-    border-radius: 0;
-    border-width: 1px;
-    border-color: rgba(256, 256, 256, .4);
-    background: transparent;
-    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);
-    margin: 1% auto;
-    display: flex;
-    margin-right: 26%;
+    display: none;
+
 }
 
+.filter-submit{
+ width: 43.5%;
+}
+.views{
+    width: 35%;
+    position: absolute;
+    margin-bottom: 0px;
+    left: 1%;
+    padding: 11px;
+    box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 18%);
+    border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;
+    background: white;
+}
+.views-photo{
+    width: 35%;
+    top: 7%;
+    position: absolute;
+    margin-top: 5%;
+    left: 1%;
+    padding: 11px;
+    box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 18%);
+    border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;
+    background: white;
+
+}

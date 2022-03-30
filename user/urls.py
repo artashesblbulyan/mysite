@@ -15,8 +15,11 @@ urlpatterns = [
     path('<str:username>/photos/', views.photos, name='photos'),
     path('<str:username>/photos/<int:id>', views.photos_viwes, name='photo_view'),
     path('<str:username>/friends/', views.friend, name='friends'),
+    path('<str:username>/People/', views.people, name='people'),
     path("<str:username>/search/", views.search, name="search"),
+    path("<str:username>/messages/<int:id>", views.messages_sed, name="messages"),
     path('<str:username>/posts/<int:post_id>', views.post_view, name="post_views"),
+    path('People/<int:user_id>/', views.people_view, name="people_views"),
 
 
 

@@ -5,27 +5,44 @@
             <div class="service">
                 <div class="row portfolio-container">
                         {% for image in image_album  %}
+
                         <div class="col-lg-3 col-md-6 col-sm-12 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
+                            <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                                              <section class="module divider-bottom" >
+                                            <div class="input-group">
+                                              <div class="input-group-prepend">
+                                                <a class="btn" style="position: absolute;background: #2e2a2a38;border-radius: 46px;width: 45px;height: 45px;left: 160px;z-index: 1;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-pencil" style="font-size:24px;"></i>
+                                                </a>
+                                                <div class="dropdown-menu"  >
+                                                  <a class="dropdown-item" href="#">
+                                                      <button type="submit" name="profile_picture"  class="btn btn-light" value="{{image.profile_picture}}" >
+                                                          <i class="fa fa-user-circle-o" >  Photo</i>
+                                                        </button>
+                                                  </a>
+                                                  <a class="dropdown-item" href="#">
+                                                      <button type="submit" name="cover_photo" class="btn btn-light"  value="{{image.profile_picture}}">
+                                                       <i class="fa fa-photo" >  Cover Photo</i>
+                                                       </button>
+                                                  </a>
+                                                  <a class="dropdown-item" href="#">
+                                                      <button type="submit" class="btn btn-light" name="image_id"  value="{{image.id}}">
+                                                            <i class="fa fa-trash" >  Delete</i>
+                                                        </button>
+                                                  </a>
+                                                </div>
+                                              </div>
+                                            </div>
+                                              </section>
+                                        </form>
                             <div class="service-item">
                                 <div class="service-img">
-                                    <div class="service-overlay">
-                                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
-                                        <button type="submit" name="profile_picture" value="{{image.profile_picture}}" >
-                                            <img src="https://img.icons8.com/ios-glyphs/30/000000/portrait.png"/>
-
-                                        </button>
-                                        <button type="submit" name="cover_photo"  value="{{image.profile_picture}}">
-                                                  <img src="https://img.icons8.com/ios-glyphs/30/000000/add-image.png"/>
-                                        </button>
-                                        <button type="submit" name="image_id"  value="{{image.id}}">
-                                            <img src="https://img.icons8.com/ios-glyphs/30/000000/trash--v1.png"/>
-                                        </button>
-                                        <a href="{{image.id}}"> <img class="cover_photo_update" src="{{image.profile_picture.url}}" ></a>
-                                        </form>
-                                    </div>
+                                    <a href="{{image.id}}"> <img class="cover_photo_update" src="{{image.profile_picture.url}}" width="200px" height="200px" ></a>
                                 </div>
                             </div>
+
                         </div>
+
                         {% endfor %}
                 </div>
             </div>

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 
@@ -7,12 +7,20 @@ def user_image_directory_path(instance, filename):
 
 
 class UserImageModel(models.Model):
+    STATUS_CHOICE = (
+        (0, "female"),
+        (1, "male"),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    birthday = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(default='/a1.jpg', upload_to=user_image_directory_path, blank=True, null=True)
     cover_photo = models.ImageField(default='/cover_photo.jpg', upload_to=user_image_directory_path, blank=True,
                                     null=True)
     photo_albums = models.ImageField(upload_to=user_image_directory_path, blank=True, null=True)
+    phone_number = models.CharField(max_length=12, blank=True, null=True)
+    location = models.TextField(max_length=100, blank=True, null=True)
+    gender = models.IntegerField(choices=STATUS_CHOICE, blank=True, null=True,default=0)
 
     def __str__(self):
         return self.created_at
@@ -54,22 +62,8 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(choices=CATHEGORIES, blank=True, null=True, max_length=10)
 
-
-
-    # class Meta:
-    #     unique_together = ('slug', 'parent',)
-    #     verbose_name_plural = "categories"
-    #
     def __str__(self):
         return self.category
-
-    # def __str__(self):
-    #     full_path = [self.name]
-    #     k = self.parent
-    #     while k is not None:
-    #         full_path.append(k.name)
-    #         k = k.parent
-    #     return ' -> '.join(full_path[::-1])
 
 
 class UserPostModel(models.Model):
@@ -77,47 +71,26 @@ class UserPostModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     posts_picture = models.ImageField(upload_to=user_post_directory_path)
     posts = models.TextField()
-    title = models.CharField(max_length=200)
-    share = models.IntegerField(default=0)
+    share = models.BooleanField(default=False)
     amount_of_likes = models.IntegerField(default=0)
     amount_of_dislikes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.title
+        return self.posts
 
-    # def get_cat_list(self):
-    #     k = self.category  # for now ignore this instance method
-    #
-    #     breadcrumb = ["dummy"]
-    #     while k is not None:
-    #         breadcrumb.append(k.slug)
-    #         k = k.parent
-    #     for i in range(len(breadcrumb) - 1):
-    #         breadcrumb[i] = '/'.join(breadcrumb[-1:i - 1:-1])
-    #     return breadcrumb[-1:0:-1]
-
-    # class Meta:
-    #     ordering = ['-created_at']
+    class Meta:
+        ordering = ['-created_at']
 
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    like = models.IntegerField(default=1)
-    dislike = models.IntegerField(default=1)
+    like = models.BooleanField(default=False)
+    dislike = models.BooleanField(default=False)
 
     def __str__(self):
         return self.like, self.dislike
-
-# class DisLike(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     post_user = models.ForeignKey(UserPostModel, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     dislike = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.Dislike
 
 
 class Comment(models.Model):
@@ -131,7 +104,17 @@ class Comment(models.Model):
 
 
 class Friends(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    friends_id = models.IntegerField(default=0)
-    received = models.IntegerField(default=0, blank=True, null=True)
-    sent = models.IntegerField(default=0,  blank=True, null=True)
+    user_from = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_to')
+    accept = models.BooleanField(default=False, blank=True, null=True)
+    send = models.BooleanField(default=False,  blank=True, null=True)
+
+
+class Messages(models.Model):
+    user_from = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_messages_to')
+    messages_from = models.TextField(blank=True, null=True)
+    messages_to = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+

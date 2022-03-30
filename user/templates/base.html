@@ -7,119 +7,126 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Construction Company Website Template" name="keywords">
         <meta content="Construction Company Website Template" name="description">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         {% load static %}
         <!-- Favicon -->
-        <link href="{% static 'img/favicon.ico' %}" rel="icon">
-
-        <!-- Google Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
         <!-- CSS Libraries -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="{% static 'lib/flaticon/font/flaticon.css' %}" rel="stylesheet">
-        <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
-        <link href="{% static '/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-        <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
-        <link href="{% static 'lib/slick/slick.css' %}" rel="stylesheet">
-        <link href="{% static 'lib/slick/slick-theme.css' %}" rel="stylesheet">
-    <!-- Template Stylesheet -->
-        <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 
+<style>
+    body {
+    padding-top: 0px;
+}
+.panel-login {
+    padding-top: 10px;
+	border-color: #ccc;
+	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+}
+.panel-login>.panel-heading {
+	color: #00415d;
+	background-color: #fff;
+	border-color: #fff;
+	text-align:center;
+}
+.panel-login>.panel-heading a{
+	text-decoration: none;
+	color: #666;
+	font-weight: bold;
+	font-size: 15px;
+	-webkit-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+}
+.panel-login>.panel-heading a.active{
+	color: #029f5b;
+	font-size: 18px;
+}
+.panel-login>.panel-heading hr{
+	margin-top: 10px;
+	margin-bottom: 0px;
+	clear: both;
+	border: 0;
+	height: 1px;
+	background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+	background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+	background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+	height: 45px;
+	border: 1px solid #ddd;
+	font-size: 16px;
+	-webkit-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+}
+.panel-login input:hover,
+.panel-login input:focus {
+	outline:none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border-color: #ccc;
+}
+.btn-login {
+	background-color: #59B2E0;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+	font-weight: normal;
+	padding: 14px 0;
+	text-transform: uppercase;
+	border-color: #59B2E6;
+}
+.btn-login:hover,
+.btn-login:focus {
+	color: #fff;
+	background-color: #1CA347;
+	border-color: #1CA347;
+}
+.forgot-password {
+	text-decoration: underline;
+	color: #888;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+	text-decoration: underline;
+	color: #666;
+}
+
+.btn-register {
+	background-color: #1CB94E;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+	font-weight: normal;
+	padding: 14px 0;
+	text-transform: uppercase;
+	border-color: #1CB94A;
+}
+.btn-register:hover,
+.btn-register:focus {
+	color: #fff;
+	background-color: #1CA347;
+	border-color: #1CA347;
+}
+
+</style>
     </head>
-
-    <body>
-
-        <div class="wrapper">
-            <!-- Top Bar Start -->
-            <div class="top-bar">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                           <div class="col-lg-0 ">
-                            <div class="logo">
-                                <a href="index.html">
-<!--                                    <h1>MA Partners </h1>-->
-                                     <img src="{% static 'img/4.png'%}" alt="Logo">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="logo">
-                                <a href="index.html">
-
-<!--                                     <img src="{% static 'img/5.png'%}" alt="Logo">-->
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-7 col-md-7 d-none d-lg-block">
-                            <div class="row">
-<!--                                <div class="col-4">-->
-<!--                                    <div class="top-bar-item">-->
-<!--                                        <div class="top-bar-icon">-->
-<!--                                            <i class="flaticon-calendar"></i>-->
-<!--                                        </div>-->
-<!--                                        <div class="top-bar-text">-->
-<!--                                            <h3>Opening Hour</h3>-->
-<!--                                            <p>Mon - Fri, 10:00 - 9:00</p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-4">-->
-<!--                                    <div class="top-bar-item">-->
-<!--                                        <div class="top-bar-icon">-->
-<!--                                            <i class="flaticon-call"></i>-->
-<!--                                        </div>-->
-<!--                                        <div class="top-bar-text">-->
-<!--                                            <h3>Call Us</h3>-->
-<!--                                            <p>+374 93 770 790</p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-4">-->
-<!--                                    <div class="top-bar-item">-->
-<!--                                        <div class="top-bar-icon">-->
-<!--                                            <i class="flaticon-send-mail"></i>-->
-<!--                                        </div>-->
-<!--                                        <div class="top-bar-text">-->
-<!--                                            <h3>Email Us</h3>-->
-<!--                                            <p>info@mapartners.com</p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Top Bar End -->
-            <!-- Nav Bar Start -->
-            <div class="nav-bar">
-                <div class="container-fluid">
-                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-                        <a href="#" class="navbar-brand">MENU</a>
-                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                            <div class="navbar-nav mr-auto">
-                                <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                            </div>
-                            <div class="ml-auto">
-                                {%  if not user.is_authenticated %}
-                                <button class="btn" type="submit" onclick="openFormLogin(),closeForm()">Login</button>
-                                <button class="btn" type="submit" onclick="openForm(),closeFormLogin()">Registration</button>
-                                {% else %}
-                                <a href="{% url 'users' user.username %}"><button class="btn" >{{user.username}}</button></a>
-                                <button class="btn" type="submit" ><a href="{% url 'user_logout' %}">Logout</a></button>
-                                {% endif%}
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="{% static 'img/4.png'%}" alt="" width="180" height="64">
+    </a>
+  </div>
+</nav>
 {% if messages %}
   {% for message in messages %}
   <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
@@ -128,54 +135,11 @@
   </div>
   {% endfor %}
 {% endif %}
-            <div class="col-md-6">
-                    <div class="contact-form" style=" text-align: center; " >
-                        <form name="sentMessage" id="myForm" novalidate="novalidate" method="POST" enctype="multipart/form-data">
-                                             {% csrf_token %}
-                            <div class="control-group">
-                                {{registration_form.username}}
-                                {{registration_form.error}}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                {{registration_form.last_name }}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                {{registration_form.first_name }}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                {{registration_form.email }}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                {{registration_form.password1 }}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                {{registration_form.password2 }}
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <button class="btn" type="submit" id="sendMessageButton">Send</button>
-                            <button type="button" class="btn cancel" onclick="closeForm()">End</button>
-                        </form>
-                    </div>
-                </div>
-    <div class="col-md-6">
-        <div class="contact-form" style=" text-align: center; " >
-            <form name="sentMessage" id="myFormLogin" novalidate="novalidate" method="POST" enctype="multipart/form-data">
-                                 {% csrf_token %}
-                <div class="control-group">
-        <!--        {{login_form.username}}-->
-                    {{login_form}}
-                </div>
-                <button class="btn" type="submit" id="sendMessageButtona">Send</button>
-                <button type="button" class="btn cancel" onclick="closeFormLogin()">End</button>
-            </form>
-        </div>
-    </div>
-</div>
+    <body>
+
+
+
+
 
             <!-- Nav Bar End -->
             {% block content %}
@@ -202,42 +166,25 @@
             {% endblock  %}
 
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
-        <script src="{% static 'lib/wow/wow.min.js' %}"></script>
-        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
-        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
-<   <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
-        <script src="{% static 'lib/slick/slick.min.js' %}"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <!-- Template Javascript -->
-        <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        $(function() {
 
+    $('#login-form-link').click(function(e) {
+		$("#login-form").delay(100).fadeIn(100);
+ 		$("#register-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+	$('#register-form-link').click(function(e) {
+		$("#register-form").delay(100).fadeIn(100);
+ 		$("#login-form").fadeOut(100);
+		$('#login-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
 
-        <script>
-function openFormA() {
-  document.getElementById("myForm1").style.display = "block";
-}
-
-function closeFormA() {
-  document.getElementById("myForm1").style.display = "none";
-}
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-
-function openFormLogin() {
-  document.getElementById("myFormLogin").style.display = "block";
-}
-
-function closeFormLogin() {
-  document.getElementById("myFormLogin").style.display = "none";
-}
-</script>
+});
+    </script>
     </body>
 </html>

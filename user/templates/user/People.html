@@ -1,6 +1,8 @@
 {% extends 'user/userbase.html' %}
 {% load static %}
     {% block post %}
+
+            <!-- Service End -->
 <style>
 .row {
     display: -ms-flexbox;
@@ -195,14 +197,60 @@
     z-index: 10;
 }
 </style>
-
-
-            <!-- Service Start -->
 <div class="container">
     <div class="row">
 
                     {% for form in friend_form %}
-                         {% if form.send == True and form.accept == True %}
+                    {% if form.user_from.id == user.id and form.send == True and form.accept == False %}
+
+                    <div class="col-md-2">
+            <div class="card user-card">
+                <div class="card-header">
+                    <h5>{{form.user_to.username}}</h5>
+                </div>
+                <div class="card-block">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == form.user_to.id %}
+                       <a href="{% url 'people_views' form.user_to.id %}" >
+                           <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                       </a>
+                       {% endif %}
+                                            {% endfor %}
+                    </div>
+                    <h6 class="f-w-600 m-t-25 m-b-10">{{form.user_to.last_name}} {{form.user_to.first_name}}</h6>
+                    <p class="text-muted m-t-15">Friend request send</p>
+
+                </div>
+            </div>
+        </div>
+                       {% elif form.user_to.id == user.id and form.send == True and form.accept == False %}
+                  <div class="col-md-2">
+            <div class="card user-card">
+                <div class="card-header">
+                    <h5>{{form.user_from.username}}</h5>
+                </div>
+                <div class="card-block">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == form.user_to.id %}
+                        <a href="{% url 'people_views' form.user_from.id %}" >
+                            <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                        </a>
+                       {% endif %}
+                                            {% endfor %}
+                    </div>
+                    <h6 class="f-w-600 m-t-25 m-b-10">{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
+
+                    <p class="text-muted m-t-15">sent you a friend request</p>
+                        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                    <button type="submit" value={{form.user_from.id}} name="accept">Confirm</button>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+                    {% elif form.send == True and form.accept == True %}
                         {% if form.user_from.id == user.id  %}
                 <div class="col-md-2">
             <div class="card user-card">
@@ -213,7 +261,9 @@
                     <div class="user-image">
                            {% for img in friend_image %}
                         {% if img.user_id == form.user_to.id %}
+                        <a href="{% url 'people_views' form.user_to.id %}" >
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                        </a>
                        {% endif %}
                         {% endfor %}
                     </div>
@@ -235,7 +285,9 @@
                     <div class="user-image">
                            {% for img in friend_image %}
                         {% if img.user_id == form.user_to.id %}
+                        <a href="{% url 'people_views' form.user_from.id %}" >
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                        </a>
                        {% endif %}
                                             {% endfor %}
                     </div>
@@ -247,11 +299,38 @@
             </div>
         </div>
                          {% endif %}
-                         {% endif %}
-                        {% endfor %}
+
+                    {% endif %}
+                    {% endfor %}
+                        {% for us in model %}
+                 <div class="col-md-2">
+            <div class="card user-card">
+                <div class="card-header">
+                    <h5>{{us.username}}</h5>
+                </div>
+                <div class="card-block">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == us.id %}
+                          <a href="{% url 'people_views' us.id %}" >
+                        <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                          </a>
+                       {% endif %}
+                                            {% endfor %}
+                    </div>
+                    <h6 class="f-w-600 m-t-25 m-b-10">{{us.last_name}} {{us.first_name}}</h6>
+                          <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+                     <button type="submit" value={{us.id}} name="send">Friend request</button>
+                              </form>
 
                 </div>
             </div>
-            <!-- Service End -->
+        </div>
+                    {% endfor %}
+
+
+
+	</div>
+</div>
 {% endblock %}
 
