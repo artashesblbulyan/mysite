@@ -276,7 +276,7 @@ def comment_create_view(request, username):
             Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
                                    comment=request.POST['comment'])
         else:
-            return render_to_response('users_posts', username=request.user.username)
+            pass
 
 
 def home(request):
