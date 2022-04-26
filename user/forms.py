@@ -58,12 +58,15 @@ class UserUpdateImageForm(forms.ModelForm):
                                                          'placeholder': '+374 93 012345', "class": "form-control"}))
     location = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={
                                                              'placeholder': 'Location', "class": "form-control"}))
+    obout = forms.CharField(required=False, widget=forms.Textarea(attrs={
+                                                            'placeholder': 'obout my', "class": "form-control"}))
     gender = forms.ChoiceField(choices=STATUS_CHOICE, required=False, widget=forms.Select(attrs={'placeholder':
                                                                  'gender', "class": "form-control", "value": 0}))
 
     class Meta:
         model = UserImageModel
-        fields = ("profile_picture", "cover_photo", "photo_albums", "birthday", "location", "gender","phone_number")
+        fields = ("profile_picture", "cover_photo", "photo_albums", "birthday", "location", "gender", "obout"
+                  , "phone_number" ,)
 
 
 class UserPostsForm(forms.Form):

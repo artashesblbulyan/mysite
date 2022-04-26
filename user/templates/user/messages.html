@@ -43,10 +43,7 @@
                 </div>
             </div>
         </div>
-
         <div class="tab-content">
-
-
             <div class="tab-pane message-body active" id="inbox-message-{{user_all.id}}">
                 <div class="message-top">
                     <a class="btn btn btn-success new-message"> <i class="fa fa-envelope"></i> New Message </a>
@@ -55,7 +52,6 @@
                             <input type="text" class="form-control" placeholder="Send message to...">
                             <a class="btn btn-danger close-new-message" href="#"><i class="fa fa-times"></i></a>
                         </div>
-
                         <div class="chat-footer new-message-textarea">
                             <textarea class="send-message-text"></textarea>
                             <label class="upload-file">
@@ -66,14 +62,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="message-chat ">
-
                     <div class="chat-body">
                         {% for messages in messages_all %}
-
                         {% if messages.user_from_id == user.id and messages.user_to_id == user_all.id %}
-
                         {% if messages.messages_to != None %}
                         <div class="message info">
                             <img alt="" class="img-circle medium-image" src={{image_to.profile_picture.url}}>
@@ -108,10 +100,7 @@
                             <br>
                         </div>
                         {% endif %}
-
-
                         {% elif messages.user_from_id == user_all.id and messages.user_to_id == user.id  %}
-
                         {% if messages.messages_from != None %}
                         <div class="message info">
                             <img alt="" class="img-circle medium-image" src={{image_to.profile_picture.url}}>
@@ -146,28 +135,17 @@
                             <br>
                         </div>
                         {% endif %}
-
                         {% endif %}
                          {% endfor %}
                     </div>
                      <form method="post" enctype="multipart/form-data" >{% csrf_token %}
                     <div class="chat-footer">
                         <textarea class="send-message-text" name="messages_from"></textarea>
-                        <label class="upload-file">
-                                <input type="file" required="">
-                                <i class="fa fa-paperclip"></i>
-                            </label>
                         <button type="submit" class="send-message-button btn-info"> <i class="fa fa-send"></i> </button>
                     </div>
-                          </form>
+                     </form>
                 </div>
-
             </div>
-
-
-
-
-
         </div>
     </div>
 </div>

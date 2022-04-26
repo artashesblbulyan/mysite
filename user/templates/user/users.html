@@ -12,12 +12,16 @@
                         <P>Age : {{age}}</P>
                     </div>
                        <div class="views-photo">
+                           <h3>Photo</h3>
+                           <a href="{% url 'photos'  user.username %}" class="nav-item nav-link" style="position: absolute;left: 75%;top: 10px;">sell all</a>
                     <section>
                         <div class="container">
                             <div class="row no-gutters">
+
                                 <div class="col-12 text-center w-100">
                                     <div class="form-row gallery">
                                         {% for image in image_a %}
+                                        {% if forloop.counter < 7%}
                                         <div class="col-sm-6 col-lg-4 mb-2 architecture">
                                             <div class="portfolio-wrapper">
                                                 <div class="portfolio-image">
@@ -32,12 +36,68 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
+                    </div>
+                    <div class="views-friend">
+                        <h3>Friends</h3>
+                        <a href="{% url 'friends'  user.username %}" class="nav-item nav-link" style="position: absolute;left: 75%;top: 10px;">sell all</a>
+                    <div class="container">
+                <div class="row_a row">
+
+                    {% for form in friend_form %}
+                    {% if forloop.counter < 7%}
+                         {% if form.send == True and form.accept == True %}
+                        {% if form.user_from.id == user.id  %}
+                <div class="col-md-6">
+            <div class="card user-card">
+                <div class="card-block">
+                    <a href="{% url 'friends_views'  user.username form.user_to.username %}">
+                    <div class="user-image">
+                        {% for img in friend_image %}
+                        {% if  form.user_to.id == img.user_id %}
+                        <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                       {% endif %}
+                        {% endfor %}
+                    </div>
+                        </a>
+                    <h6>{{form.user_to.last_name}} {{form.user_to.first_name}}</h6>
+                </div>
+            </div>
+        </div>
+                      {% endif %}
+                        {% if form.user_to.id == user.id  %}
+                   <div class="col-md-6">
+            <div class="card user-card">
+                <div class="card-block">
+                      <a href="{% url 'friends_views'  user.username form.user_from.username %}">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == form.user_from.id %}
+
+                        <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+
+                       {% endif %}
+                        {% endfor %}
+                    </div>
+                           </a>
+                    <h6>{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
+
+                </div>
+            </div>
+        </div>
+                         {% endif %}
+                         {% endif %}
+                         {% endif %}
+                        {% endfor %}
+
+                </div>
+            </div>
                     </div>
                     </div>
                     <div class="section-header text-center">

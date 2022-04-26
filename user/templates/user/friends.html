@@ -204,6 +204,7 @@
                     {% for form in friend_form %}
                          {% if form.send == True and form.accept == True %}
                         {% if form.user_from.id == user.id  %}
+
                 <div class="col-md-2">
             <div class="card user-card">
                 <div class="card-header">
@@ -213,7 +214,9 @@
                     <div class="user-image">
                            {% for img in friend_image %}
                         {% if img.user_id == form.user_to.id %}
+                        <a href="{% url 'friends_views'  user.username form.user_to.username %}">
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                             </a>
                        {% endif %}
                         {% endfor %}
                     </div>
@@ -226,6 +229,7 @@
         </div>
                       {% endif %}
                         {% if form.user_to.id == user.id  %}
+
                    <div class="col-md-2">
             <div class="card user-card">
                 <div class="card-header">
@@ -234,10 +238,12 @@
                 <div class="card-block">
                     <div class="user-image">
                            {% for img in friend_image %}
-                        {% if img.user_id == form.user_to.id %}
+                        {% if img.user_id == form.user_from.id %}
+                           <a href="{% url 'friends_views'  user.username form.user_from.username %}">
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                                 </a>
                        {% endif %}
-                                            {% endfor %}
+                        {% endfor %}
                     </div>
                     <h6 class="f-w-600 m-t-25 m-b-10">{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
 
@@ -246,6 +252,7 @@
                 </div>
             </div>
         </div>
+
                          {% endif %}
                          {% endif %}
                         {% endfor %}

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
@@ -20,7 +21,9 @@ class UserImageModel(models.Model):
     photo_albums = models.ImageField(upload_to=user_image_directory_path, blank=True, null=True)
     phone_number = models.CharField(max_length=12, blank=True, null=True)
     location = models.TextField(max_length=100, blank=True, null=True)
-    gender = models.IntegerField(choices=STATUS_CHOICE, blank=True, null=True,default=0)
+    obout = models.TextField(blank=True, null=True)
+    online = models.DateTimeField(default=datetime.now)
+    gender = models.IntegerField(choices=STATUS_CHOICE, blank=True, null=True, default=0)
 
     def __str__(self):
         return self.created_at

@@ -284,7 +284,7 @@
                 <div class="card-block">
                     <div class="user-image">
                            {% for img in friend_image %}
-                        {% if img.user_id == form.user_to.id %}
+                        {% if img.user_id == form.user_from.id %}
                         <a href="{% url 'people_views' form.user_from.id %}" >
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
                         </a>
@@ -316,7 +316,7 @@
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
                           </a>
                        {% endif %}
-                                            {% endfor %}
+                       {% endfor %}
                     </div>
                     <h6 class="f-w-600 m-t-25 m-b-10">{{us.last_name}} {{us.first_name}}</h6>
                           <form method="post" enctype="multipart/form-data" >{% csrf_token %}

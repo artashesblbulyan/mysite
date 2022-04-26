@@ -1,876 +1,538 @@
-{% extends 'user/userbase.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8">
+        <title>My site</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Construction Company Website Template" name="keywords">
+        <meta content="Construction Company Website Template" name="description">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Favicon -->
+        <!-- CSS Libraries -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    {% block post %}
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/people.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
-<div class="container">
-<div id="user-profile-2" class="user-profile">
-    <div class="tabbable">
-      <ul class="nav nav-tabs padding-18">
-        <li class="active">
-          <a data-toggle="tab" href="#home">
-            <i class="green ace-icon fa fa-user bigger-120"></i>
-            Profile
-          </a>
-        </li>
+    </head>
 
-        <li>
-          <a data-toggle="tab" href="#feed">
-            <i class="orange ace-icon fa fa-rss bigger-120"></i>
-            Activity Feed
-          </a>
-        </li>
+    <body>
+        <div class="wrapper">
+            <!-- Top Bar Start -->
+            <div class="top-bar">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                           <div class="col-lg-0 ">
+                            <div class="logo">
+                                <a href="{% url 'home' %}">
+<!--                                    <h1>MA Partners </h1>-->
+                                     <img src="{% static 'img/4.png'%}" alt="Logo">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 d-none d-lg-block">
 
-        <li>
-          <a data-toggle="tab" href="#friends">
-            <i class="blue ace-icon fa fa-users bigger-120"></i>
-            Friends
-          </a>
-        </li>
-
-        <li>
-          <a data-toggle="tab" href="#pictures">
-            <i class="pink ace-icon fa fa-picture-o bigger-120"></i>
-            Pictures
-          </a>
-        </li>
-      </ul>
-
-      <div class="tab-content no-border padding-24">
-        <div id="home" class="tab-pane in active">
-          <div class="row">
-            <div class="col-xs-12 col-sm-3 center">
-              <span class="profile-picture">
-                <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="{{image_all.profile_picture.url}}">
-              </span>
-
-              <div class="space space-4"></div>
-
-              <a href="#" class="btn btn-sm btn-block btn-success">
-                <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                <span class="bigger-110">Add as a friend</span>
-              </a>
-
-              <a href="{% url 'messages' user.username model.id%}" class="btn btn-sm btn-block btn-primary">
-                <i class="ace-icon fa fa-envelope-o bigger-110"></i>
-                <span class="bigger-110">Send a message</span>
-              </a>
-            </div><!-- /.col -->
-
-            <div class="col-xs-12 col-sm-9">
-              <h4 class="blue">
-                <span class="middle">{{model.last_name}}</span>
-                {% if model.is_authenticated %}
-                <span class="label label-purple arrowed-in-right">
-                  <i class="ace-icon fa fa-circle smaller-80 align-middle"></i>
-
-                  online
-
-                </span>
-                {% endif %}
-              </h4>
-
-              <div class="profile-user-info">
-                <div class="profile-info-row">
-                  <div class="profile-info-name"> Username </div>
-
-                  <div class="profile-info-value">
-                    <span>{{model.username}}</span>
-                  </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name">Location</div>
-                  {% if image_all.location %}
-                  <div class="profile-info-value">
-                    <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>{{image_all.location}}</span>
-                  </div>
-                  {% endif %}
-                </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name"> Age </div>
-
-                  <div class="profile-info-value">
-                    <span>{{age}}</span>
-                  </div>
-                </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name"> Joined </div>
-
-                  <div class="profile-info-value">
-                    <span>{{model.date_joined}}</span>
-                  </div>
-                </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name"> Last Online </div>
-
-                  <div class="profile-info-value">
-                    <span>{{model.last_login}}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="hr hr-8 dotted"></div>
-
-              <div class="profile-user-info">
-                <div class="profile-info-row">
-                  <div class="profile-info-name"> Sex </div>
-
-                  <div class="profile-info-value">
-                    <a href="#" target="_blank">www.alexdoe.com</a>
-                  </div>
-                </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name">
-                    <i class="middle ace-icon fa fa-facebook-square bigger-150 blue"></i>
-                  </div>
-
-                  <div class="profile-info-value">
-                    <a href="#">Find me on Facebook</a>
-                  </div>
-                </div>
-
-                <div class="profile-info-row">
-                  <div class="profile-info-name">
-                    <i class="middle ace-icon fa fa-twitter-square bigger-150 light-blue"></i>
-                  </div>
-
-                  <div class="profile-info-value">
-                    <a href="#">Follow me on Twitter</a>
-                  </div>
-                </div>
-              </div>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-
-          <div class="space-20"></div>
-
-          <div class="row">
-            <div class="col-xs-12 col-sm-6">
-              <div class="widget-box transparent">
-                <div class="widget-header widget-header-small">
-                  <h4 class="widget-title smaller">
-                    <i class="ace-icon fa fa-check-square-o bigger-110"></i>
-                    Little About Me
-                  </h4>
-                </div>
-
-                <div class="widget-body">
-                  <div class="widget-main">
-                    <p>
-                      My job is mostly lorem ipsuming and dolor sit ameting as long as consectetur adipiscing elit.
-                    </p>
-                    <p>
-                      Sometimes quisque commodo massa gets in the way and sed ipsum porttitor facilisis.
-                    </p>
-                    <p>
-                      The best thing about my job is that vestibulum id ligula porta felis euismod and nullam quis risus eget urna mollis ornare.
-                    </p>
-                    <p>
-                      Thanks for visiting my profile.
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div><!-- /#home -->
-
-        <div id="feed" class="tab-pane">
-          <div class="profile-feed row">
-            <div class="col-sm-6">
-              <div class="profile-activity clearfix">
-                <div>
-                  <img class="pull-left" alt="Alex Doe's avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                  <a class="user" href="#"> Alex Doe </a>
-                  changed his profile photo.
-                  <a href="#">Take a look</a>
-
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    an hour ago
+            <!-- Top Bar End -->
+            {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}{{ message.tags|title }}{% endif %}!</strong> {{ message }}
                   </div>
+              {% endfor %}
+            {% endif %}
+            <!-- Nav Bar Start -->
+            <div class="nav-bar">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<!--                        <a href="#" class="navbar-brand">MENU</a>-->
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                            <div class="navbar-nav mr-auto">
+                                <a href="{% url 'home' %}" class="nav-item nav-link active" style="background-image: url(/static/img/6.png);background-repeat: no-repeat;
+  background-size: 70px 43px;width: 70px;height: 43px;"></a>
+
+                            </div>
+                            <div class="ml-auto">
+                                {%  if not user_a.is_authenticated %}
+                                <button class="btn" type="submit" onclick="openFormLogin(),closeForm()">Login</button>
+                                <button class="btn" type="submit" onclick="openForm(),closeFormLogin()">Registration</button>
+                                {% else %}
+                                <a href="{% url 'users' user_a.username%}"><button class="btn" >{{ user_a.first_name}} {{ user_a.last_name }}</button></a>
+                                <button class="btn" type="submit" ><a href="{% url 'user_logout' %}">Logout</a></button>
+                                {% endif%}
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <img class="pull-left" alt="Susan Smith's avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                  <a class="user" href="#"> Susan Smith </a>
-
-                  is now friends with Alex Doe.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    2 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-                  joined
-                  <a href="#">Country Music</a>
-
-                  group.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    5 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-picture-o btn-info no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-                  uploaded a new photo.
-                  <a href="#">Take a look</a>
-
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    5 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <img class="pull-left" alt="David Palms's avatar" src="https://bootdey.com/img/Content/avatar/avatar3.png">
-                  <a class="user" href="#"> David Palms </a>
-
-                  left a comment on Alex's wall.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    8 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-            </div><!-- /.col -->
-
-            <div class="col-sm-6">
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-pencil-square-o btn-pink no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-                  published a new blog post.
-                  <a href="#">Read now</a>
-
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    11 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <img class="pull-left" alt="Alex Doe's avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png">
-                  <a class="user" href="#"> Alex Doe </a>
-
-                  upgraded his skills.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    12 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-key btn-info no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-
-                  logged in.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    12 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-power-off btn-inverse no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-
-                  logged out.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    16 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div class="profile-activity clearfix">
-                <div>
-                  <i class="pull-left thumbicon fa fa-key btn-info no-hover"></i>
-                  <a class="user" href="#"> Alex Doe </a>
-
-                  logged in.
-                  <div class="time">
-                    <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                    16 hours ago
-                  </div>
-                </div>
-
-                <div class="tools action-buttons">
-                  <a href="#" class="blue">
-                    <i class="ace-icon fa fa-pencil bigger-125"></i>
-                  </a>
-
-                  <a href="#" class="red">
-                    <i class="ace-icon fa fa-times bigger-125"></i>
-                  </a>
-                </div>
-              </div>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-
-          <div class="space-12"></div>
-
-          <div class="center">
-            <button type="button" class="btn btn-sm btn-primary btn-white btn-round">
-              <i class="ace-icon fa fa-rss bigger-150 middle orange2"></i>
-              <span class="bigger-110">View more activities</span>
-
-              <i class="icon-on-right ace-icon fa fa-arrow-right"></i>
-            </button>
-          </div>
-        </div><!-- /#feed -->
-
-        <div id="friends" class="tab-pane">
-          <div class="profile-users clearfix">
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Bob Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-online"></span>
-                      Bob Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Content Editor</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 orange"></i>
-                      <span class="green"> 20 mins ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Rose Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-offline"></span>
-                      Rose Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Graphic Designer</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 grey"></i>
-                      <span class="grey"> 30 min ago </span>
+            <div class="col-md-6">
+                    <div class="contact-form" style=" text-align: center; " >
+                        <form name="sentMessage" id="myForm" novalidate="novalidate" method="POST" enctype="multipart/form-data">
+                                             {% csrf_token %}
+                            <div class="control-group">
+                                {{registration_form.username}}
+                                {{registration_form.error}}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                {{registration_form.last_name }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                {{registration_form.first_name }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                {{registration_form.email }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                {{registration_form.password1 }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                {{registration_form.password2 }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <button class="btn" type="submit" id="sendMessageButton">Send</button>
+                            <button type="button" class="btn cancel" onclick="closeForm()">End</button>
+                        </form>
                     </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Jim Doe's avatar">
-                  </a>
+            <div class="col-md-6">
+        <div class="contact-form" style=" text-align: center; " >
+            <form name="sentMessage" id="myFormLogin" novalidate="novalidate" method="POST" enctype="multipart/form-data">
+                                 {% csrf_token %}
+                <div class="control-group">
+        <!--        {{login_form.username}}-->
+                    {{login_form}}
                 </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-busy"></span>
-                      Jim Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">SEO &amp; Advertising</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 red"></i>
-                      <span class="grey"> 1 hour ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Alex Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-idle"></span>
-                      Alex Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Marketing</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 orange"></i>
-                      <span class=""> 40 minutes idle </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Phil Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-online"></span>
-                      Phil Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Public Relations</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 orange"></i>
-                      <span class="green"> 2 hours ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Susan Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-online"></span>
-                      Susan Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">HR Management</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 orange"></i>
-                      <span class="green"> 20 mins ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Jennifer Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-offline"></span>
-                      Jennifer Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Graphic Designer</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 grey"></i>
-                      <span class="grey"> 2 hours ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="itemdiv memberdiv">
-              <div class="inline pos-rel">
-                <div class="user">
-                  <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Alexa Doe's avatar">
-                  </a>
-                </div>
-
-                <div class="body">
-                  <div class="name">
-                    <a href="#">
-                      <span class="user-status status-offline"></span>
-                      Alexa Doe
-                    </a>
-                  </div>
-                </div>
-
-                <div class="popover">
-                  <div class="arrow"></div>
-
-                  <div class="popover-content">
-                    <div class="bolder">Accounting</div>
-
-                    <div class="time">
-                      <i class="ace-icon fa fa-clock-o middle bigger-120 grey"></i>
-                      <span class="grey"> 4 hours ago </span>
-                    </div>
-
-                    <div class="hr dotted hr-8"></div>
-
-                    <div class="tools action-buttons">
-                      <a href="#">
-                        <i class="ace-icon fa fa-facebook-square blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                      </a>
-
-                      <a href="#">
-                        <i class="ace-icon fa fa-google-plus-square red bigger-150"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hr hr10 hr-double"></div>
-
-          <ul class="pager pull-right">
-            <li class="previous disabled">
-              <a href="#">← Prev</a>
-            </li>
-
-            <li class="next">
-              <a href="#">Next →</a>
-            </li>
-          </ul>
-        </div><!-- /#friends -->
-
-        <div id="pictures" class="tab-pane">
-          <ul class="ace-thumbnails">
-            {% for image in image_album_all %}
-            <li style="width:200px; height: 200px;">
-              <a href="#" data-rel="colorbox">
-                <img alt="150x150" style="width:100%" src="{{image.profile_picture.url}}">
-                <div class="text">
-                  <div class="inner">Sample Caption on Hover</div>
-                </div>
-              </a>
-
-              <div class="tools tools-bottom">
-                <a href="#">
-                  <i class="ace-icon fa fa-link"></i>
-                </a>
-
-                <a href="#">
-                  <i class="ace-icon fa fa-paperclip"></i>
-                </a>
-
-                <a href="#">
-                  <i class="ace-icon fa fa-pencil"></i>
-                </a>
-
-                <a href="#">
-                  <i class="ace-icon fa fa-times red"></i>
-                </a>
-              </div>
-            </li>
-            {% endfor %}
-
-          </ul>
-        </div><!-- /#pictures -->
-      </div>
+                <button class="btn" type="submit" id="sendMessageButtona">Send</button>
+                <button type="button" class="btn cancel" onclick="closeFormLogin()">End</button>
+            </form>
+        </div>
     </div>
-  </div>
-  </div>
-{% endblock %}
+
+            <!-- Carousel Start -->
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        {% if user_imag.cover_photo  %}
+                        <img src="{{user_imag.cover_photo.url}}" >
+                         {% endif %}
+                    </div>
+                    </div>
+                </div>
+
+            <!-- Carousel End -->
+
+            <!-- Feature Start-->
+            <div class="feature wow fadeInUp" data-wow-delay="0.1s">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="feature-item">
+                                <div class="userimage"  style="box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%), 0px 7px 4px -1px rgb(0 0 0 / 20%);background-image: url({{user_imag.profile_picture.url}});" >
+
+                                </div>
+                                <i class="fa-solid fa-image"></i>
+                                <div class="feature-text" style="width: 10%;">
+                                    <br>
+                                </div>
+                                <div class="feature-text">
+                                    <h3>{{ user_a.first_name}} {{ user_a.last_name }}</h3>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Feature End-->
+
+            <div class="nav-bar nav-bar-2">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                        <a href="#" class="navbar-brand">MENU</a>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="">
+                            <div class="navbar-nav ">
+                                <a href="{% url 'users_posts' user_a.username %}" class="nav-item nav-link">Posts</a>
+                                 <ul class="navbar-nav">
+                                     <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="{% url 'people' user_a.username%}" id="navbardrop" data-toggle="dropdown">
+                                  People
+                              </a>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'friends' user_a.username%}">Friends</a>
+                                <a class="dropdown-item" href="{% url 'people' user_a.username%}">People</a>
+                                <a class="dropdown-item" href="#">Link 3</a>
+                              </div>
+                            </li>
+                          </ul>
+                                <a href="{% url 'photos'  user_a.username %}" class="nav-item nav-link">Photos</a>
+                                <a href="{% url 'edit_profile'  user_a.username %}" class="nav-item nav-link">Edit profile</a>
+                            </div>
+            <form id="searchform" class="form-inline my-2 my-lg-0" name="searchinputform"  method="get" >
+              <input class="form-control mr-sm-2" type="search"  name="search" id="searchinput" placeholder="Search here" >
+
+<script>
+$( "#searchform" ).submit( function( e ) {
+    e.preventDefault();
+
+    document.location = "/{{user_a.username}}/search/?search="+ $( "#searchinput" ).val();
+
+  } );
+</script>
+</form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- Service Start -->
+            <div class="service">
+                <div class="container">
+                    <div class="views">
+                        <P>Username : {{user_a.username}}</P>
+                        <P>Name : {{user_a.last_name}} {{user_a.first_name}}</P>
+                        <P>Phone number : {{user_image.phone_number}}</P>
+                        <P>Location : {{user_image.location}}</P>
+                        <P>Age : {{age}}</P>
+                    </div>
+                       <div class="views-photo">
+                           <h3>Photo</h3>
+                           <a href="{% url 'photos'  user_a.username %}" class="nav-item nav-link" style="position: absolute;left: 75%;top: 10px;">sell all</a>
+                    <section>
+                        <div class="container">
+                            <div class="row no-gutters">
+
+                                <div class="col-12 text-center w-100">
+                                    <div class="form-row gallery">
+                                        {% for image in image_a %}
+                                        {% if forloop.counter < 7%}
+                                        <div class="col-sm-6 col-lg-4 mb-2 architecture">
+                                            <div class="portfolio-wrapper">
+                                                <div class="portfolio-image">
+                                                    <img src={{image.profile_picture.url}} alt="..." width="100px" />
+                                                </div>
+                                                <div class="portfolio-overlay">
+                                                    <div class="portfolio-content">
+                                                        <a class="popimg ml-0" href="#">
+                                                            <i class="ti-zoom-in display-24 display-md-23 display-lg-22 display-xl-20"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    </div>
+                    <div class="views-friend">
+                        <h3>Friends</h3>
+                        <a href="{% url 'friends'  user_a.username %}" class="nav-item nav-link" style="position: absolute;left: 75%;top: 10px;">sell all</a>
+                    <div class="container">
+                <div class="row_a row">
+
+                    {% for form in friend_form %}
+                    {% if forloop.counter < 7%}
+                         {% if form.send == True and form.accept == True %}
+                        {% if form.user_from.id == user_a.id  %}
+                <div class="col-md-6">
+            <div class="card user-card">
+                <div class="card-block">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == form.user_to.id %}
+                        <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                       {% endif %}
+                        {% endfor %}
+                    </div>
+                    <h6>{{form.user_to.last_name}} {{form.user_to.first_name}}</h6>
+                </div>
+            </div>
+        </div>
+                      {% endif %}
+                        {% if form.user_to.id == user_a.id  %}
+                   <div class="col-md-6">
+            <div class="card user-card">
+                <div class="card-block">
+                    <div class="user-image">
+                           {% for img in friend_image %}
+                        {% if img.user_id == form.user_to.id %}
+                        <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
+                       {% endif %}
+                        {% endfor %}
+                    </div>
+                    <h6>{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
+
+                </div>
+            </div>
+        </div>
+                         {% endif %}
+                         {% endif %}
+                         {% endif %}
+                        {% endfor %}
+
+                </div>
+            </div>
+                    </div>
+                    </div>
+                    <div class="section-header text-center">
+
+                         <div class="row row-1">
+                                <div class="row" style="margin: 12px;width: 79.5%;box-shadow: 0 1px 2px 1px rgb(0 0 0 / 17%);
+    border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;background: #ffffff;">
+                                      <div class="col-lg-12 col-sm-12 col-xs-12">
+                                          <div class="form-group row">
+                         <div class="col-sm-6"><form method="get" enctype="multipart/form-data" >
+                            <div class="form-group row">
+                            <div class="col-sm-8">
+                            <select name="category"  id="id_category" class="form-control" aria-label="Default select example">
+                                  <option value="0">Communication</option>
+                                  <option value="1">Conference Report</option>
+                                  <option value="2">Editorial</option>
+                                  <option value="3">Opinion</option>
+                                  <option value="4">Perspective</option>
+                                  <option value="5">Book Review</option>
+                                  <option value="6">Registered Report</option>
+                                  <option value="7">Review</option>
+                                  <option value="8">Else</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                            <button type="submit"  >Filter</button>
+                            </div>
+                                 </div>
+                         </form>
+                         </div>
+                        <div class="col-sm-6"><form method="post" enctype="multipart/form-data"  >{% csrf_token %}
+                            <div class="form-group row">
+                             <div class="col-sm-6">
+                            <select name="order"  id="order" class="form-control" >
+                                  <option value="created_at">Created at</option>
+                                  <option value="amount_of_likes">Likes</option>
+                                  <option value="amount_of_dislikes">Dislikes</option>
+                            </select>
+                             </div>
+                            <div class="col-sm-6">
+                                <button  type="submit">Order by</button>
+                            </div>
+                                </div>
+                        </form></div>
+                            </div>
+                            </div>
+                            </div>
+                        {% for task in posts_mod %}
+                        <div class="col-lg-10 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item" style="background-image:">
+
+                                {% if task.posts_picture.width  is None %}
+                              <video width="100%" height="100%" controls>
+                                      <source src="{{task.posts_picture.url}}" type="video/mp4">
+                                      <source src="movie.ogg" type="video/ogg">
+                                      Your browser does not support the video tag.
+                                    </video>
+                                {% elif task.posts_picture %}
+                                <div class="service-img">
+                                    <img src="{{task.posts_picture.url}}" alt="{{tasks.service_name}}">
+                                </div>
+                                  {% endif %}
+
+                                <div class="service-text">
+                                    <div class="col-md-2 ">
+                                        {% for image in image_all %}
+                                        {% if image.user_id == task.user_id  %}
+                            <div class="post-user-image" style="background-image: url({{image.profile_picture.url}})"></div>
+                                        {% endif %}
+                                        {% endfor %}
+                            </div>
+                            <div class="col-md-4 ">
+                            <a href="/{{user_a.username}}/posts/{{task.id }}">{{task.user.username }}<br></a>
+                            {{task.created_at }}<br>
+                            </div>
+                                    <div class="col-md-4 ">
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        {% if task.user_id == user.id %}
+                                    <a class="btn" href="/{{user_a.username}}/posts/{{task.id }}" >+</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="service-overlay">
+                                        <p>
+                                            {{task.posts|truncatewords_html:50}}
+                                        </p>
+                                </div>
+                                <form method="POST"  enctype="multipart/form-data" >{% csrf_token %}
+
+                                    <button id="like" name="like"  type="submit" value={{task.id}}>
+                                          <i class="fa fa-thumbs-up"></i>
+                                          <span class="icon">Like {{ task.amount_of_likes }}</span>
+                                    </button>
+
+                                    <button id="Dislike1" name="dislike"  type="submit" value="{{task.id}}">
+                                          <i class="fa fa-thumbs-down"></i>
+                                          <span class="icon">DisLike {{ task.amount_of_dislikes }}</span>
+                                    </button>
+                                    <button name="post_user_id" type="submit" value="{{task.id}}">
+                                        <i class="fa fa-comment"></i>
+                                        <span class="icon">Comment</span>
+                                    </button>
+
+                                    {% for comment_a in comment_all %}
+                                    {% if comment_a.post_user_id == task.id  %}
+                                  <div class="service-overlay-comment">
+                                      <div class="">
+                                              {% for image in image_all %}
+                                        {% if image.user_id == comment_a.user_id  %}
+                            <div class="post-user-image-comment" style="background-image: url({{image.profile_picture.url}})"></div>
+                                        {% endif %}
+                                        {% endfor %}
+                                      </div>
+                                      <div class="coment">
+                                     {{comment_a.comment}}
+                                      </div>
+                                </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                 <div class="service-overlay-comment-form">
+                                     {{comment_form.comment}}&#128512;
+                                </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- Service End -->
+         <div class="footer wow fadeIn" data-wow-delay="0.3s">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="footer-contact">
+
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="newsletter">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container footer-menu">
+
+                </div>
+
+            <!-- Footer End -->
+
+            <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        </div>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+        <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+         <script>
+         $('#id_profile_picture').change(function() {
+  $('#target').submit();
+});
+         $('#id_cover_photo').change(function() {
+  $('#id_cover_photo_form').submit();
+});
+function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+    $('.image-upload-wrap').addClass('image-dropping');
+  });
+  $('.image-upload-wrap').bind('dragleave', function () {
+    $('.image-upload-wrap').removeClass('image-dropping');
+});
+</script>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+function openFormLogin() {
+  document.getElementById("myFormLogin").style.display = "block";
+}
+
+function closeFormLogin() {
+  document.getElementById("myFormLogin").style.display = "none";
+}
+</script>
+    </div>
+    </body>
+</html>
 

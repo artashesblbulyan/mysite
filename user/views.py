@@ -1,16 +1,13 @@
 from datetime import datetime
-
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import ListView, DetailView
-
 from user.forms import UserRegistrationForm, CommentForm, ProfileForm
-from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm,CategoryForm
+from user.forms import UserLoginForm, UserUpdateImageForm, UserPostsForm, CategoryForm
 from user.models import UserImageAlbumsModel, UserPostModel, UserImageModel, Like, Comment, Category, Friends, Messages
-from django.db.models import Q
+
 
 def user_registration(request):
     user_form = UserRegistrationForm()
@@ -60,11 +57,19 @@ def users(request, username):
             if request.FILES.get('profile_picture', None) is not None:
                 profile_picture.profile_picture = request.FILES['profile_picture']
                 profile_picture.save()
+                post_picture = request.FILES['profile_picture']
+                posts = "updated his profile picture."
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts,
+                                             posts_picture=post_picture, share=True)
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=0,
                                                     profile_picture=request.FILES['profile_picture'])
             if request.FILES.get('cover_photo', None) is not None:
                 profile_picture.cover_photo = request.FILES['cover_photo']
                 profile_picture.save()
+                post_picture = request.FILES['cover_photo']
+                posts = "updated his cover photo picture."
+                UserPostModel.objects.create(user_id=request.user.id, posts=posts,
+                                             posts_picture=post_picture, share=True)
                 UserImageAlbumsModel.objects.create(user_id=request.user.id, status=1,
                                                     profile_picture=request.FILES['cover_photo'])
     return {"user_image": user_image, "form_image": form_image}
@@ -135,7 +140,6 @@ def users_posts_create(request, username):
     return render(request, 'user/posts.html', context=context)
 
 
-
 @login_required(login_url="login_user")
 def users_pos(request, username):
     post_user = UserPostsForm(request.POST)
@@ -155,6 +159,7 @@ def users_pos(request, username):
     if request.method == "POST":
         post_user = UserPostsForm(request.POST, request.FILES)
         category = CategoryForm(request.POST)
+
         if post_user.is_valid():
             if request.FILES.get('post_picture', None) is not None:
                 posts = request.POST['posts']
@@ -195,6 +200,7 @@ def users_pos(request, username):
     pages = users(request, username)
     user_image = pages.get('user_image')
     form_image = pages.get('form_image')
+    friend = people_all(request, username)
     context = {"post": post_user,
                "posts_mod": posts_mod,
                "user_image": user_image,
@@ -205,6 +211,7 @@ def users_pos(request, username):
                "comment_form": comment_form,
                "comment_all": comment_all,
                "category": category,
+               **friend
                }
     return render(request, 'user/users.html', context=context)
 
@@ -280,7 +287,6 @@ def comment_create_view(request, username):
 
 
 def home(request):
-
     user_form = user_registration(request)
     form_class = login_user(request)
     if request.user.is_authenticated:
@@ -317,11 +323,20 @@ def photos(request, username):
         if request.POST.get('profile_picture', None) is not None:
             profile_picture.profile_picture = request.POST['profile_picture']
             profile_picture.save()
+            post_picture = request.POST['profile_picture']
+            posts = "updated his profile picture."
+            UserPostModel.objects.create(user_id=request.user.id, posts=posts,
+                                         posts_picture=post_picture, share=True)
             messages.success(request, "Profile picture is updated successfully")
             return redirect('photos', username=request.user.username)
         elif request.POST.get('cover_photo', None) is not None:
             profile_picture.cover_photo = request.POST['cover_photo']
             profile_picture.save()
+            post_picture = request.POST['cover_photo']
+            posts = "updated his cover_photo picture."
+            UserPostModel.objects.create(user_id=request.user.id, posts=posts,
+                                         posts_picture=post_picture, share=True)
+
             messages.success(request, "Cover photo is updated successfully")
             return redirect('photos', username=request.user.username)
         elif request.POST.get('image_id', None) is not None:
@@ -345,6 +360,23 @@ def photos_viwes(request, username, id):
 def friend(request, username):
     context = people_all(request, username)
     return render(request, "user/friends.html", context=context)
+
+
+@login_required(login_url="login_user")
+def friend_views(request, username, friend_username):
+    users_search = search(request, username)
+    user_a = User.objects.get(username=friend_username)
+    user_imag = UserImageModel.objects.get(user_id=user_a.id)
+    print(user_imag.profile_picture)
+    image_a = UserImageAlbumsModel.objects.filter(user_id=user_a.id)
+    posts_mod = UserPostModel.objects.filter(user_id=user_a.id)
+    image_all = UserImageModel.objects.all()
+    context = people_all(request, username)
+    comment_form = CommentForm(request.POST)
+    comment_all = Comment.objects.all()
+    return render(request, "user/friends_views.html", context={"user_imag": user_imag, "image_a": image_a,
+                                           "user_a": user_a, "posts_mod": posts_mod, "image_all": image_all,
+                                            "comment_all": comment_all, "comment_form" :comment_form, **context})
 
 
 @login_required(login_url="login_user")
@@ -402,7 +434,10 @@ def people(request, username):
 def people_view(request, user_id):
     model = User.objects.get(id=user_id)
     image_album_all = UserImageAlbumsModel.objects.filter(user_id=user_id)
-
+    date = datetime.now()
+    # print(date)
+    # print()
+    # date = (datetime.now() > model.last_login.time)
     pages = users(request, model.username)
 
     try:
@@ -416,13 +451,12 @@ def people_view(request, user_id):
     context = {
         "model": model,
         "age": age,
+        "date": date,
         "image_all": image_all,
         "image_album_all": image_album_all,
         **pages
     }
     return render(request, "user/friends_views.html", context=context)
-
-
 
 
 @login_required(login_url="login_user")
