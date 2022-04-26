@@ -208,7 +208,7 @@
                 <div class="col-md-2">
             <div class="card user-card">
                 <div class="card-header">
-                    <h5>{{form.user_to.username}}</h5>
+                    <h6 class="f-w-600 m-t-5 m-b-10">{{form.user_to.username}}</h6>
                 </div>
                 <div class="card-block">
                     <div class="user-image">
@@ -217,11 +217,13 @@
                         <a href="{% url 'friends_views'  user.username form.user_to.username %}">
                         <img src={{img.profile_picture.url}} class="img-radius" alt="User-Profile-Image">
                              </a>
+                        <a href="{% url 'messages' user.username form.user_to.id %}" target="_blank" >messages</a>
                        {% endif %}
                         {% endfor %}
                     </div>
-                    <h6 class="f-w-600 m-t-25 m-b-10">{{form.user_to.last_name}} {{form.user_to.first_name}}</h6>
-
+                    <h6 class="f-w-600 m-t-5 m-b-10">{{form.user_to.last_name}} {{form.user_to.first_name}}</h6>
+                    <a href="{% url 'messages' user.username form.user_from.id %}" target="_blank" >
+                       <i class='fa fa-envelope' style='font-size:24px'></i></a>
                     <p class="text-muted m-t-15">Friend</p>
 
                 </div>
@@ -233,7 +235,7 @@
                    <div class="col-md-2">
             <div class="card user-card">
                 <div class="card-header">
-                    <h5>{{form.user_from.username}}</h5>
+                    <h6 class="f-w-600 m-t-5 m-b-10" >{{form.user_from.username}}</h6>
                 </div>
                 <div class="card-block">
                     <div class="user-image">
@@ -245,8 +247,9 @@
                        {% endif %}
                         {% endfor %}
                     </div>
-                    <h6 class="f-w-600 m-t-25 m-b-10">{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
-
+                    <h6 class="f-w-600 m-t-5 m-b-10">{{form.user_from.last_name}} {{form.user_from.first_name}}</h6>
+                <a href="{% url 'messages' user.username form.user_from.id %}" target="_blank" >
+                       <i class='fa fa-envelope' style='font-size:24px'></i></a>
                     <p class="text-muted m-t-15">Friend</p>
 
                 </div>

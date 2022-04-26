@@ -367,7 +367,6 @@ def friend_views(request, username, friend_username):
     users_search = search(request, username)
     user_a = User.objects.get(username=friend_username)
     user_imag = UserImageModel.objects.get(user_id=user_a.id)
-    print(user_imag.profile_picture)
     image_a = UserImageAlbumsModel.objects.filter(user_id=user_a.id)
     posts_mod = UserPostModel.objects.filter(user_id=user_a.id)
     image_all = UserImageModel.objects.all()
