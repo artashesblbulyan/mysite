@@ -283,7 +283,7 @@ def comment_create_view(request, username):
             Comment.objects.create(user_id=request.user.id, post_user_id=request.POST['post_user_id'],
                                    comment=request.POST['comment'])
         else:
-            return render_to_response('users_posts', username=request.user.username)
+            pass
 
 
 def home(request):
@@ -464,7 +464,7 @@ def search(request, username):
     user_image = UserImageModel.objects.all()
     if request.method == "GET":
         if request.GET.get('search', None) is not None:
-            users_search = User.objects.filter(username__contains=request.GET["search"])
+            users_search = User.objects.filter(username__icontains=request.GET["search"], first_name__icontains=request.GET["search"])
             if users_search:
                 context = {
                     "model": users_search,
